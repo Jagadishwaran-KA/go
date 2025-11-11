@@ -1,3 +1,5 @@
+package com.example.warehouse_go.models
+
 data class Receive(
     val receiptNo: String,
     val orderNo: String,

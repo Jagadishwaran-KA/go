@@ -8,7 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.warehouse_go.ui.theme.AppTheme
-import receiveCards
+import com.example.warehouse_go.models.receiveCards
 
 
 class MainActivity : ComponentActivity() {
