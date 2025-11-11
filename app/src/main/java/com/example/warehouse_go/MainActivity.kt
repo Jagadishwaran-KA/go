@@ -7,7 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.warehouse_go.ui.theme.Warehouse_GoTheme
+import com.example.warehouse_go.ui.theme.AppTheme
 import receiveCards
 
 
@@ -16,9 +16,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             enableEdgeToEdge()
-            Warehouse_GoTheme {
+            AppTheme {
                 val navController = rememberNavController()
-                NavHost(navController = navController, startDestination = "home"){
+                NavHost(navController = navController, startDestination = "Login"){
+                    composable("Login"){
+                        Login(navController)
+                    }
                     composable("home") {
                         Home(navController)
                     }
