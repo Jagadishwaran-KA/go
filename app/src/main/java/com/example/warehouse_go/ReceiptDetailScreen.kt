@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.warehouse_go.components.LayoutHelpers
 import com.example.warehouse_go.models.ReceiptDetails
 import com.example.warehouse_go.models.ReceiptLine
 import com.example.warehouse_go.models.receiptDetails
@@ -49,20 +50,20 @@ fun ReceiptHeader(receiptDetails: ReceiptDetails, modifier: Modifier = Modifier)
         )
         ) {
         Column(modifier = Modifier.padding(8.dp)) {
-            BuildRow(label = "Receipt: ", value = receiptDetails.receiptNo)
-            BuildRow(label = "Source Document: ", value = receiptDetails.sourceDocument)
-            BuildRow(label = "Source No: ", value = receiptDetails.sourceNo)
-            BuildRow(label = "Location Code: ", value = receiptDetails.locationCode)
-            BuildRow(label = "Zone Code: ", value = receiptDetails.zoneCode)
-            BuildRow(label = "Buy From Vendor: ", value = receiptDetails.vendorNo)
-            BuildRow(label = "Total Lines: ", value = receiptDetails.receiptLines.size.toString())
+            LayoutHelpers.LabelValueRow(label = "Receipt: ", value = receiptDetails.receiptNo)
+            LayoutHelpers.LabelValueRow(label = "Source Document: ", value = receiptDetails.sourceDocument)
+            LayoutHelpers.LabelValueRow(label = "Source No: ", value = receiptDetails.sourceNo)
+            LayoutHelpers.LabelValueRow(label = "Location Code: ", value = receiptDetails.locationCode)
+            LayoutHelpers.LabelValueRow(label = "Zone Code: ", value = receiptDetails.zoneCode)
+            LayoutHelpers.LabelValueRow(label = "Buy From Vendor: ", value = receiptDetails.vendorNo)
+            LayoutHelpers.LabelValueRow(label = "Total Lines: ", value = receiptDetails.receiptLines.size.toString())
         }
     }
 }
 
 @Composable
 fun BuildReceiptLine(line: ReceiptLine,modifier: Modifier = Modifier) {
-    Card(
+    LayoutHelpers.AppCard(
         modifier = modifier
             .fillMaxWidth()
             .padding(10.dp),
@@ -73,12 +74,12 @@ fun BuildReceiptLine(line: ReceiptLine,modifier: Modifier = Modifier) {
         )
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
-            BuildRow(label = "Line No: ", value = line.lineNo)
-            BuildRow(label = "Item No: ", value = line.itemNo)
-            BuildRow(label = "Item Description: ", value = line.description)
-            BuildRow(label = "Uom: ", value = line.uom)
-            BuildRow(label = "Bin Code: ", value = line.binCode)
-            BuildRow(label = "Due date: ", value = line.dueDate)
+            LayoutHelpers.LabelValueRow(label = "Line No: ", value = line.lineNo)
+            LayoutHelpers.LabelValueRow(label = "Item No: ", value = line.itemNo)
+            LayoutHelpers.LabelValueRow(label = "Item Description: ", value = line.description)
+            LayoutHelpers.LabelValueRow(label = "Uom: ", value = line.uom)
+            LayoutHelpers.LabelValueRow(label = "Bin Code: ", value = line.binCode)
+            LayoutHelpers.LabelValueRow(label = "Due date: ", value = line.dueDate)
         }
     }
 }

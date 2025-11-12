@@ -17,17 +17,17 @@ class MainActivity : ComponentActivity() {
             enableEdgeToEdge()
             AppTheme {
                 val navController = rememberNavController()
-                NavHost(navController = navController, startDestination = "Login"){
-                    composable("Login"){
-                        Login(navController)
+                NavHost(navController = navController, startDestination = "home"){
+                    composable("login"){
+                        LoginScreen(navController)
                     }
                     composable("home") {
-                        Home(navController)
+                        HomeScreen(navController)
                     }
-                    composable("Receive"){
-                        ReceiveScreen(navController, receiveCards = receiveCards)
+                    composable("receiveInfo"){
+                        ReceiveInfoScreen(navController, receiveCards = receiveCards)
                     }
-                    composable("ReceiveDetail"){
+                    composable("receiptDetail"){
                         ReceiptDetail()
                     }
                 }

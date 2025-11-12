@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.FilterList
@@ -14,21 +13,20 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.warehouse_go.components.AppTextField
+import com.example.warehouse_go.components.LayoutHelpers
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ReceiveScreen(navController: NavController, receiveCards: List<Receive>) {
+fun ReceiveInfoScreen(navController: NavController, receiveCards: List<Receive>) {
     var searchQuery by remember { mutableStateOf("") }
     val listState = rememberLazyListState()
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            LayoutHelpers.AppTopBar(
                 title = { Text("Receive", style = MaterialTheme.typography.headlineSmall) },
                 navigationIcon = {
                     if (navController.previousBackStackEntry != null) {
@@ -40,11 +38,6 @@ fun ReceiveScreen(navController: NavController, receiveCards: List<Receive>) {
                         }
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                    titleContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    actionIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                )
             )
         },
         floatingActionButton = {
@@ -58,18 +51,11 @@ fun ReceiveScreen(navController: NavController, receiveCards: List<Receive>) {
                 .padding(innerPadding)
                 .fillMaxSize()
         ) {
-            OutlinedTextField(
+            AppTextField.OutlinedTextField(
                 value = searchQuery,
                 onValueChange = { searchQuery = it },
                 placeholder = { Text("Search Warehouse Receipt", style = MaterialTheme.typography.titleSmall) },
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Filled.Search,
-                        contentDescription = "Search",
-                        modifier = Modifier.size(22.dp)
-                    )
-                },
-                maxLines = 1,
+                leadingIcon = Icons.Filled.Search,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp, vertical = 4.dp)
@@ -80,9 +66,9 @@ fun ReceiveScreen(navController: NavController, receiveCards: List<Receive>) {
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
-                items(receiveCards, key = { it.receiptNo }) { card ->
-                    SwipeableReceipt(card) {
-                       navController.navigate("ReceiveDetail")
+                items(receiveCards, key = { it.receiptNo }) { receiptInfo ->
+                    SwipeableReceiptCard(receiptInfo) {
+                       navController.navigate("receiptDetail")
                     }
                 }
             }
@@ -92,7 +78,7 @@ fun ReceiveScreen(navController: NavController, receiveCards: List<Receive>) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SwipeableReceipt(
+fun SwipeableReceiptCard(
     receiptInfo: Receive,
     modifier: Modifier = Modifier,
     onSwipe: () -> Unit,
@@ -123,49 +109,27 @@ fun SwipeableReceipt(
         enableDismissFromEndToStart = true,
         modifier = modifier
     ) {
-        Receipt(receiptInfo)
+        ReceiptInfoCard(receiptInfo)
     }
 }
 
 @Composable
-fun Receipt(receiptInfo: Receive, modifier: Modifier = Modifier) {
-    Card(
+fun ReceiptInfoCard(receiptInfo: Receive, modifier: Modifier = Modifier) {
+    LayoutHelpers.AppCard(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
             contentColor = MaterialTheme.colorScheme.onSurfaceVariant
         ),
-        shape = RoundedCornerShape(10.dp),
         modifier = modifier.fillMaxWidth()
     ) {
         Column(modifier = Modifier.padding(2.dp)) {
-            BuildRow("Receipt No", receiptInfo.receiptNo)
-            BuildRow("Purchase Order No", receiptInfo.orderNo)
-            BuildRow("Assigned Date", receiptInfo.assignedDate)
-            BuildRow("Assigned Time", receiptInfo.assignedTime)
+            LayoutHelpers.LabelValueRow("Receipt No", receiptInfo.receiptNo)
+            LayoutHelpers.LabelValueRow("Purchase Order No", receiptInfo.orderNo)
+            LayoutHelpers.LabelValueRow("Assigned Date", receiptInfo.assignedDate)
+            LayoutHelpers.LabelValueRow("Assigned Time", receiptInfo.assignedTime)
         }
     }
 }
 
-@Composable
-fun BuildRow(label: String, value: String, modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(6.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            label,
-            color = MaterialTheme.colorScheme.primary,
-            fontWeight = FontWeight.SemiBold,
-            style = MaterialTheme.typography.titleMedium
-        )
-        Text(
-            value,
-            fontWeight = FontWeight.SemiBold,
-            style = MaterialTheme.typography.titleMedium
-        )
-    }
-}
 
 

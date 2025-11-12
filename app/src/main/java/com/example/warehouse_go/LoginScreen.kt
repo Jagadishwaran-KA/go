@@ -11,7 +11,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -22,7 +21,7 @@ import com.example.warehouse_go.models.AuthState
 import com.example.warehouse_go.viewmodels.LoginViewModel
 
 @Composable
-fun Login(navController: NavHostController, modifier: Modifier = Modifier) {
+fun LoginScreen(navController: NavHostController, modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val activity = context as Activity
     
@@ -85,9 +84,9 @@ fun HeaderTitle() {
 
 @Composable
 fun ConnectionSettingsSection(viewModel: LoginViewModel, authState: AuthState) {
-    var tenantId by remember { mutableStateOf(TextFieldValue("")) }
-    var clientId by remember { mutableStateOf(TextFieldValue("")) }
-    var companyUrl by remember { mutableStateOf(TextFieldValue("")) }
+    var tenantId by remember { mutableStateOf(("")) }
+    var clientId by remember { mutableStateOf(("")) }
+    var companyUrl by remember { mutableStateOf(("")) }
     
     Column(
         modifier = Modifier
@@ -104,8 +103,10 @@ fun ConnectionSettingsSection(viewModel: LoginViewModel, authState: AuthState) {
             value = tenantId,
             onValueChange = { tenantId = it },
             enabled = authState !is AuthState.Loading,
-            placeholder = "Enter Tenant Id",
-            modifier = Modifier.fillMaxWidth().padding(6.dp)
+            placeholder = { Text("Enter Tenant Id",style = MaterialTheme.typography.labelMedium) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(6.dp)
         )
         AppTextField.OutlinedTextField(
             label = "Client Id", 
@@ -113,8 +114,10 @@ fun ConnectionSettingsSection(viewModel: LoginViewModel, authState: AuthState) {
             value = clientId,
             onValueChange = { clientId = it },
             enabled = authState !is AuthState.Loading,
-            placeholder = "Enter Client Id",
-            modifier = Modifier.fillMaxWidth().padding(6.dp)
+            placeholder = {Text("Enter Client Id", style = MaterialTheme.typography.labelMedium)},
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(6.dp)
         )
         AppTextField.OutlinedTextField(
             label = "Company Url", 
@@ -122,17 +125,19 @@ fun ConnectionSettingsSection(viewModel: LoginViewModel, authState: AuthState) {
             value = companyUrl,
             onValueChange = { companyUrl = it },
             enabled = authState !is AuthState.Loading,
-            placeholder = "Enter Company Url",
-            modifier = Modifier.fillMaxWidth().padding(6.dp)
+            placeholder = { Text("Enter Company Url", style = MaterialTheme.typography.labelMedium)},
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(6.dp)
         )
         
         ActionButtons(
             isLoading = authState is AuthState.Loading,
             onConnectClick = {
                 viewModel.login(
-                    tenantId = tenantId.text,
-                    clientId = clientId.text,
-                    companyUrl = companyUrl.text
+                    tenantId = tenantId,
+                    clientId = clientId,
+                    companyUrl = companyUrl
                 )
             }
         )
@@ -169,7 +174,9 @@ fun ActionButtons(isLoading: Boolean, onConnectClick: () -> Unit) {
             onConnectClick()
         }
     }
-    LayoutHelpers.CenteredSpacer{ LayoutHelpers.HorizontalDivider(Modifier.width(300.dp).padding(6.dp)) }
+    LayoutHelpers.CenteredSpacer{ LayoutHelpers.HorizontalDivider(Modifier
+        .width(300.dp)
+        .padding(6.dp)) }
     LayoutHelpers.CenteredSpacer{
         AppButtons.OutlinedButton(
             Modifier.width(350.dp),

@@ -2,6 +2,7 @@ package com.example.warehouse_go.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -30,9 +31,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -88,23 +89,21 @@ object AppTextField{
     @Composable
     fun OutlinedTextField(
         modifier: Modifier = Modifier,
-        label: String,
-        value: TextFieldValue,
-        placeholder: String? = null,
+        label: String? = null,
+        value: String,
+        placeholder:  @Composable (() -> Unit)? = null,
+        leadingIcon: ImageVector? = null,
         suffixIcon: ImageVector? = null,
         enabled: Boolean = true,
-        onValueChange: (TextFieldValue) -> Unit,
+        onValueChange: (String) -> Unit,
     ) {
         OutlinedTextField(
             value = value,
             onValueChange = onValueChange,
-            label = { Text(text = label, style = MaterialTheme.typography.labelLarge) },
-            placeholder = placeholder?.let {
-                { Text(text = it, style = MaterialTheme.typography.labelMedium) }
-            },
-            trailingIcon = suffixIcon?.let {
-                { Icon(imageVector = it, contentDescription = label) }
-            },
+            label = label?.let{ {Text(text = label, style = MaterialTheme.typography.labelLarge)}},
+            placeholder = placeholder,
+            leadingIcon = leadingIcon?.let { {Icon(imageVector = it, contentDescription = label)} },
+            trailingIcon = suffixIcon?.let { { Icon(imageVector = it, contentDescription = label) } },
             singleLine = true,
             enabled = enabled,
             modifier = modifier
@@ -115,11 +114,11 @@ object AppTextField{
     fun InputTextField(
         modifier: Modifier = Modifier,
         label: String,
-        value: TextFieldValue,
+        value: String,
         placeholder: String? = null,
         leadingIcon: ImageVector? = null,
         trailingIcon: ImageVector? = null,
-        onValueChange: (TextFieldValue) -> Unit
+        onValueChange: (String) -> Unit
     ) {
         TextField(
             value = value,
@@ -163,9 +162,10 @@ object LayoutHelpers{
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun AppTopBar(modifier: Modifier = Modifier, title:@Composable () -> Unit, actions: @Composable (RowScope.() -> Unit) = {}) {
+    fun AppTopBar(modifier: Modifier = Modifier, title:@Composable () -> Unit,navigationIcon: @Composable (() -> Unit) = {},actions: @Composable (RowScope.() -> Unit) = {}) {
         TopAppBar(
             title = title,
+            navigationIcon = navigationIcon,
             modifier = modifier ,
             actions = actions,
             colors = TopAppBarDefaults.topAppBarColors(
@@ -203,10 +203,11 @@ object LayoutHelpers{
     fun AppCard(modifier: Modifier = Modifier,colors: CardColors = CardDefaults.cardColors(
         containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
         contentColor = MaterialTheme.colorScheme.onSurfaceVariant),
-        content: () -> Unit ) {
+        shape: Shape = RoundedCornerShape(10.dp),
+        content: @Composable ColumnScope.() -> Unit ) {
         Card(
             colors = colors,
-            shape = RoundedCornerShape(10.dp),
+            shape = shape,
             modifier = modifier.fillMaxWidth()
         ) {
             content()
