@@ -3,23 +3,21 @@ package com.example.warehouse_go
 import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.QrCode
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.warehouse_go.components.AppButtons
+import com.example.warehouse_go.components.AppTextField
+import com.example.warehouse_go.components.LayoutHelpers
 import com.example.warehouse_go.models.AuthState
 import com.example.warehouse_go.viewmodels.LoginViewModel
 
@@ -67,7 +65,7 @@ fun Login(navController: NavHostController, modifier: Modifier = Modifier) {
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.tertiary,
                 modifier = Modifier.padding(horizontal = 14.dp))
-            ConnectionSettingsSection(navController, viewModel, authState)
+            ConnectionSettingsSection(viewModel, authState)
         }
     }
 }
@@ -86,7 +84,7 @@ fun HeaderTitle() {
 }
 
 @Composable
-fun ConnectionSettingsSection(navController: NavHostController, viewModel: LoginViewModel, authState: AuthState) {
+fun ConnectionSettingsSection(viewModel: LoginViewModel, authState: AuthState) {
     var tenantId by remember { mutableStateOf(TextFieldValue("")) }
     var clientId by remember { mutableStateOf(TextFieldValue("")) }
     var companyUrl by remember { mutableStateOf(TextFieldValue("")) }
@@ -99,31 +97,36 @@ fun ConnectionSettingsSection(navController: NavHostController, viewModel: Login
             .background(MaterialTheme.colorScheme.surfaceContainer)
     ) {
         SettingsHeader()
-        
-        LoginField(
+
+        AppTextField.OutlinedTextField(
             label = "Tenant Id", 
             suffixIcon = Icons.Default.ContentCopy,
             value = tenantId,
             onValueChange = { tenantId = it },
-            enabled = authState !is AuthState.Loading
+            enabled = authState !is AuthState.Loading,
+            placeholder = "Enter Tenant Id",
+            modifier = Modifier.fillMaxWidth().padding(6.dp)
         )
-        LoginField(
+        AppTextField.OutlinedTextField(
             label = "Client Id", 
             suffixIcon = Icons.Default.ContentCopy,
             value = clientId,
             onValueChange = { clientId = it },
-            enabled = authState !is AuthState.Loading
+            enabled = authState !is AuthState.Loading,
+            placeholder = "Enter Client Id",
+            modifier = Modifier.fillMaxWidth().padding(6.dp)
         )
-        LoginField(
+        AppTextField.OutlinedTextField(
             label = "Company Url", 
             suffixIcon = Icons.Default.ContentCopy,
             value = companyUrl,
             onValueChange = { companyUrl = it },
-            enabled = authState !is AuthState.Loading
+            enabled = authState !is AuthState.Loading,
+            placeholder = "Enter Company Url",
+            modifier = Modifier.fillMaxWidth().padding(6.dp)
         )
         
         ActionButtons(
-            navController = navController,
             isLoading = authState is AuthState.Loading,
             onConnectClick = {
                 viewModel.login(
@@ -153,47 +156,12 @@ fun SettingsHeader() {
     }
 }
 
-@Composable
-fun LoginField(
-    label: String, 
-    suffixIcon: ImageVector,
-    value: TextFieldValue,
-    onValueChange: (TextFieldValue) -> Unit,
-    enabled: Boolean = true
-) {
-    OutlinedTextField(
-        value = value,
-        onValueChange = onValueChange,
-        label = { Text(text = label, style = MaterialTheme.typography.labelLarge) },
-        placeholder = { Text(text = "Enter $label", style = MaterialTheme.typography.labelMedium) },
-        trailingIcon = {
-            Icon(imageVector = suffixIcon, contentDescription = label)
-        },
-        singleLine = true,
-        enabled = enabled,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(6.dp)
-    )
-}
-
-@Composable
-fun SpacerWithBox(
-    modifier: Modifier = Modifier,
-    height: Dp = 16.dp,
-    content: @Composable () -> Unit
-) {
-    Spacer(modifier = Modifier.height(height))
-    Box(modifier = modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-        content()
-    }
-}
 
 
 @Composable
-fun ActionButtons(navController: NavHostController, isLoading: Boolean, onConnectClick: () -> Unit) {
-    SpacerWithBox(modifier = Modifier) {
-        FilledButton(
+fun ActionButtons(isLoading: Boolean, onConnectClick: () -> Unit) {
+    LayoutHelpers.CenteredSpacer{
+        AppButtons.FilledButton(
             Modifier.width(350.dp),
             label = if (isLoading) "Connecting..." else "Connect to Warehouse",
             enabled = !isLoading
@@ -201,71 +169,18 @@ fun ActionButtons(navController: NavHostController, isLoading: Boolean, onConnec
             onConnectClick()
         }
     }
-    SpacerWithBox(modifier = Modifier) {
-        HorizontalDivider(Modifier.width(300.dp).padding(6.dp))
-    }
-    SpacerWithBox(modifier = Modifier) {
-        OutLineButton(
+    LayoutHelpers.CenteredSpacer{ LayoutHelpers.HorizontalDivider(Modifier.width(300.dp).padding(6.dp)) }
+    LayoutHelpers.CenteredSpacer{
+        AppButtons.OutlinedButton(
             Modifier.width(350.dp),
             label = "Scan QR Code to Login",
             icon = Icons.Default.QrCode,
             enabled = !isLoading
-        )
-    }
-    SpacerWithBox(modifier = Modifier) {
-        HelpText()
-    }
-}
-
-
-@Composable
-fun FilledButton(modifier: Modifier = Modifier, label: String, enabled: Boolean = true, click: () -> Unit) {
-    Button(
-        onClick = {click()},
-        enabled = enabled,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary
-        ),
-        shape = RoundedCornerShape(8.dp),
-        modifier = modifier.padding(4.dp)
-    ) {
-        Text(
-            label,
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
-            modifier = modifier.padding(4.dp),
-            textAlign = TextAlign.Center
-        )
-    }
-}
-
-@Composable
-fun OutLineButton(modifier: Modifier = Modifier, label: String, icon: ImageVector? = null, enabled: Boolean = true) {
-    OutlinedButton(
-        onClick = {},
-        enabled = enabled,
-        shape = RoundedCornerShape(8.dp),
-        modifier = modifier.padding(4.dp)
-    ) {
-        icon?.let {
-            it -> Icon(imageVector = it, contentDescription = label)
+        ){
+            //TODO Add QR Parsing Logic
         }
-        Text(
-            label,
-            style = MaterialTheme.typography.titleMedium,
-            modifier = modifier.padding(4.dp),
-            textAlign = TextAlign.Center
-        )
     }
-}
-
-@Composable
-fun HorizontalDivider(modifier: Modifier = Modifier) {
-    HorizontalDivider(
-        color = MaterialTheme.colorScheme.tertiary,
-        modifier = modifier,
-    )
+    LayoutHelpers.CenteredSpacer { HelpText() }
 }
 
 @Composable

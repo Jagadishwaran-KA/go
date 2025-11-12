@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -40,7 +41,7 @@ import androidx.compose.ui.unit.dp
 object AppButtons{
 
     @Composable
-    fun AppOutlinedButton(modifier: Modifier = Modifier, label: String, icon: ImageVector? = null, enabled: Boolean = true,colors: ButtonColors = ButtonDefaults.outlinedButtonColors(), click: () -> Unit) {
+    fun OutlinedButton(modifier: Modifier = Modifier, label: String, icon: ImageVector? = null, enabled: Boolean = true,colors: ButtonColors = ButtonDefaults.outlinedButtonColors(), click: () -> Unit) {
         OutlinedButton(
             onClick = click,
             enabled = enabled,
@@ -61,7 +62,7 @@ object AppButtons{
     }
 
     @Composable
-    fun AppFilledButton(modifier: Modifier = Modifier, label: String, enabled: Boolean = true,buttonColors: ButtonColors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary,
+    fun FilledButton(modifier: Modifier = Modifier, label: String, enabled: Boolean = true,buttonColors: ButtonColors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary,
         contentColor = MaterialTheme.colorScheme.onPrimary), click: () -> Unit) {
         Button(
             onClick = click,
@@ -85,14 +86,14 @@ object AppButtons{
 object AppTextField{
 
     @Composable
-    fun AppOutlinedTextField(
+    fun OutlinedTextField(
         modifier: Modifier = Modifier,
         label: String,
-        value: String,
+        value: TextFieldValue,
         placeholder: String? = null,
         suffixIcon: ImageVector? = null,
         enabled: Boolean = true,
-        onValueChange: (String) -> Unit,
+        onValueChange: (TextFieldValue) -> Unit,
     ) {
         OutlinedTextField(
             value = value,
@@ -107,8 +108,6 @@ object AppTextField{
             singleLine = true,
             enabled = enabled,
             modifier = modifier
-                .fillMaxWidth()
-                .padding(6.dp)
         )
     }
 
@@ -116,11 +115,11 @@ object AppTextField{
     fun InputTextField(
         modifier: Modifier = Modifier,
         label: String,
-        value: String = "",
+        value: TextFieldValue,
         placeholder: String? = null,
         leadingIcon: ImageVector? = null,
         trailingIcon: ImageVector? = null,
-        onValueChange: (String) -> Unit
+        onValueChange: (TextFieldValue) -> Unit
     ) {
         TextField(
             value = value,
