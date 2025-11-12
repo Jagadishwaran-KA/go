@@ -7,6 +7,85 @@ data class Receive(
     val assignedTime: String
 )
 
+data class ReceiptDetails(
+    val receiptNo: String,
+    val sourceDocument: String,
+    val sourceNo: String,
+    val locationCode : String,
+    val zoneCode: String,
+    val vendorNo: String,
+    val receiptLines : List<ReceiptLine>
+)
+
+data class ReceiptLine(
+    val lineNo: String,
+    val itemNo: String,
+    val description: String,
+    val binCode: String,
+    val uom: String,
+    val quantity: Int,
+    val qtyReceive: Int,
+    val qtyOutstanding: Int,
+    val dueDate: String
+
+)
+
+val receiptDetails = ReceiptDetails(
+    receiptNo = "RCPT-1001",
+    sourceDocument = "Purchase Order",
+    sourceNo = "PO-12345",
+    locationCode = "LOC-01",
+    zoneCode = "Z001",
+    vendorNo = "VENDOR-01",
+    receiptLines = listOf(
+        ReceiptLine(
+            lineNo = "1",
+            itemNo = "ITEM-001",
+            description = "Product A",
+            binCode = "BIN-001",
+            uom = "PCS",
+            quantity = 100,
+            qtyReceive = 50,
+            qtyOutstanding = 50,
+            dueDate = "2023-11-30"
+        ),
+        ReceiptLine(
+            lineNo = "2",
+            itemNo = "ITEM-002",
+            description = "Product B",
+            binCode = "BIN-002",
+            uom = "PCS",
+            quantity = 200,
+            qtyReceive = 150,
+            qtyOutstanding = 50,
+            dueDate = "2023-12-15"
+        ),
+        ReceiptLine(
+            lineNo = "3",
+            itemNo = "ITEM-003",
+            description = "Product C",
+            binCode = "BIN-003",
+            uom = "PCS",
+            quantity = 300,
+            qtyReceive = 200,
+            qtyOutstanding = 100,
+            dueDate = "2023-12-10"
+        ),
+        ReceiptLine(
+            lineNo = "4",
+            itemNo = "ITEM-004",
+            description = "Product D",
+            binCode = "BIN-004",
+            uom = "PCS",
+            quantity = 500,
+            qtyReceive = 350,
+            qtyOutstanding = 150,
+            dueDate = "2023-12-20"
+        )
+    )
+)
+
+
 val receiveCards = listOf(
     Receive("RCPT-1001", "ORD-5001", "2025-01-11", "11:10 PM"),
     Receive("RCPT-1002", "ORD-5002", "2025-01-12", "12:30 PM"),

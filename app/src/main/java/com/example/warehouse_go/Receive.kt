@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -35,7 +36,6 @@ fun ReceiveScreen(navController: NavController, receiveCards: List<Receive>) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = "Back",
-                                tint = Color.White
                             )
                         }
                     }
@@ -46,6 +46,11 @@ fun ReceiveScreen(navController: NavController, receiveCards: List<Receive>) {
                     actionIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             )
+        },
+        floatingActionButton = {
+            FloatingActionButton({}) {
+                Icon(imageVector = Icons.Default.FilterList, contentDescription = "Filter")
+            }
         }
     ) { innerPadding ->
         Column(
@@ -76,37 +81,90 @@ fun ReceiveScreen(navController: NavController, receiveCards: List<Receive>) {
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(receiveCards, key = { it.receiptNo }) { card ->
-                    Receipt(card)
+                    SwipeableReceipt(card) {
+                       navController.navigate("ReceiveDetail")
+                    }
                 }
             }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Receipt(receiptInfo: Receive,modifier: Modifier = Modifier) {
+fun SwipeableReceipt(
+    receiptInfo: Receive,
+    modifier: Modifier = Modifier,
+    onSwipe: () -> Unit,
+) {
+    val dismissState = rememberSwipeToDismissBoxState(
+        confirmValueChange = { dismissValue ->
+            when (dismissValue) {
+                SwipeToDismissBoxValue.EndToStart -> {
+                    onSwipe()
+                    false
+                }
+                else -> false
+            }
+        },
+        positionalThreshold = { it * 0.25f }
+    )
+
+    SwipeToDismissBox(
+        state = dismissState,
+        backgroundContent = {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 8.dp)
+            )
+        },
+        enableDismissFromStartToEnd = false,
+        enableDismissFromEndToStart = true,
+        modifier = modifier
+    ) {
+        Receipt(receiptInfo)
+    }
+}
+
+@Composable
+fun Receipt(receiptInfo: Receive, modifier: Modifier = Modifier) {
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
             contentColor = MaterialTheme.colorScheme.onSurfaceVariant
         ),
         shape = RoundedCornerShape(10.dp),
-        modifier = modifier.fillMaxWidth().padding(2.dp)
+        modifier = modifier.fillMaxWidth()
     ) {
-        Column(modifier.padding(2.dp)){
+        Column(modifier = Modifier.padding(2.dp)) {
             BuildRow("Receipt No", receiptInfo.receiptNo)
-            BuildRow("Purch Order No",receiptInfo.orderNo)
-            BuildRow("Assigned Date",receiptInfo.assignedDate)
-            BuildRow("Assigned Time",receiptInfo.assignedTime)
+            BuildRow("Purchase Order No", receiptInfo.orderNo)
+            BuildRow("Assigned Date", receiptInfo.assignedDate)
+            BuildRow("Assigned Time", receiptInfo.assignedTime)
         }
     }
 }
 
 @Composable
-fun BuildRow(label: String, value: String,modifier: Modifier = Modifier) {
-    Row(modifier.fillMaxWidth().padding(6.dp), horizontalArrangement = Arrangement.SpaceBetween){
-        Text(label, color = MaterialTheme.colorScheme.primary,style = MaterialTheme.typography.titleMedium)
-        Text(value, fontWeight = FontWeight.SemiBold,style = MaterialTheme.typography.titleMedium)
+fun BuildRow(label: String, value: String, modifier: Modifier = Modifier) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(6.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            label,
+            color = MaterialTheme.colorScheme.primary,
+            fontWeight = FontWeight.SemiBold,
+            style = MaterialTheme.typography.titleMedium
+        )
+        Text(
+            value,
+            fontWeight = FontWeight.SemiBold,
+            style = MaterialTheme.typography.titleMedium
+        )
     }
 }
 
