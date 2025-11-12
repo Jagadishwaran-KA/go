@@ -4,14 +4,19 @@ import android.app.Activity
 import android.content.Context
 import android.util.Log
 import com.example.warehouse_go.models.User
-import com.microsoft.identity.client.*
-import com.microsoft.identity.client.exception.MsalException
+import com.microsoft.identity.client.AcquireTokenParameters
+import com.microsoft.identity.client.AuthenticationCallback
+import com.microsoft.identity.client.IAccount
+import com.microsoft.identity.client.IAuthenticationResult
 import com.microsoft.identity.client.IPublicClientApplication.ISingleAccountApplicationCreatedListener
+import com.microsoft.identity.client.ISingleAccountPublicClientApplication
+import com.microsoft.identity.client.PublicClientApplication
+import com.microsoft.identity.client.exception.MsalException
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.json.JSONObject
 import org.json.JSONArray
+import org.json.JSONObject
 import java.io.File
 
 class MicrosoftAuthService(

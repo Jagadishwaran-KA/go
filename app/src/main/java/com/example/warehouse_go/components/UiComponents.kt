@@ -39,10 +39,17 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 
-object AppButtons{
+object AppButtons {
 
     @Composable
-    fun OutlinedButton(modifier: Modifier = Modifier, label: String, icon: ImageVector? = null, enabled: Boolean = true,colors: ButtonColors = ButtonDefaults.outlinedButtonColors(), click: () -> Unit) {
+    fun OutlinedButton(
+        modifier: Modifier = Modifier,
+        label: String,
+        icon: ImageVector? = null,
+        enabled: Boolean = true,
+        colors: ButtonColors = ButtonDefaults.outlinedButtonColors(),
+        click: () -> Unit
+    ) {
         OutlinedButton(
             onClick = click,
             enabled = enabled,
@@ -50,8 +57,8 @@ object AppButtons{
             modifier = modifier.padding(4.dp),
             colors = colors
         ) {
-            icon?.let {
-                    it -> Icon(imageVector = it, contentDescription = label)
+            icon?.let { it ->
+                Icon(imageVector = it, contentDescription = label)
             }
             Text(
                 label,
@@ -63,8 +70,16 @@ object AppButtons{
     }
 
     @Composable
-    fun FilledButton(modifier: Modifier = Modifier, label: String, enabled: Boolean = true,buttonColors: ButtonColors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary,
-        contentColor = MaterialTheme.colorScheme.onPrimary), click: () -> Unit) {
+    fun FilledButton(
+        modifier: Modifier = Modifier,
+        label: String,
+        enabled: Boolean = true,
+        buttonColors: ButtonColors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
+        ),
+        click: () -> Unit
+    ) {
         Button(
             onClick = click,
             enabled = enabled,
@@ -84,14 +99,14 @@ object AppButtons{
 }
 
 
-object AppTextField{
+object AppTextField {
 
     @Composable
     fun OutlinedTextField(
         modifier: Modifier = Modifier,
         label: String? = null,
         value: String,
-        placeholder:  @Composable (() -> Unit)? = null,
+        placeholder: @Composable (() -> Unit)? = null,
         leadingIcon: ImageVector? = null,
         suffixIcon: ImageVector? = null,
         enabled: Boolean = true,
@@ -100,10 +115,31 @@ object AppTextField{
         OutlinedTextField(
             value = value,
             onValueChange = onValueChange,
-            label = label?.let{ {Text(text = label, style = MaterialTheme.typography.labelLarge)}},
+            label = label?.let {
+                {
+                    Text(
+                        text = label,
+                        style = MaterialTheme.typography.labelLarge
+                    )
+                }
+            },
             placeholder = placeholder,
-            leadingIcon = leadingIcon?.let { {Icon(imageVector = it, contentDescription = label)} },
-            trailingIcon = suffixIcon?.let { { Icon(imageVector = it, contentDescription = label) } },
+            leadingIcon = leadingIcon?.let {
+                {
+                    Icon(
+                        imageVector = it,
+                        contentDescription = label
+                    )
+                }
+            },
+            trailingIcon = suffixIcon?.let {
+                {
+                    Icon(
+                        imageVector = it,
+                        contentDescription = label
+                    )
+                }
+            },
             singleLine = true,
             enabled = enabled,
             modifier = modifier
@@ -128,8 +164,22 @@ object AppTextField{
                 unfocusedContainerColor = Color.Transparent,
                 focusedContainerColor = Color.Transparent,
             ),
-            leadingIcon = leadingIcon?.let { icon -> { Icon(imageVector = icon, contentDescription = placeholder) } },
-            trailingIcon = trailingIcon?.let{icon -> {Icon(imageVector = icon, contentDescription = placeholder)} },
+            leadingIcon = leadingIcon?.let { icon ->
+                {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = placeholder
+                    )
+                }
+            },
+            trailingIcon = trailingIcon?.let { icon ->
+                {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = placeholder
+                    )
+                }
+            },
             maxLines = 1,
             label = { Text(label) },
             modifier = modifier
@@ -138,7 +188,7 @@ object AppTextField{
 }
 
 
-object LayoutHelpers{
+object LayoutHelpers {
 
     @Composable
     fun HorizontalDivider(modifier: Modifier = Modifier) {
@@ -162,11 +212,16 @@ object LayoutHelpers{
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun AppTopBar(modifier: Modifier = Modifier, title:@Composable () -> Unit,navigationIcon: @Composable (() -> Unit) = {},actions: @Composable (RowScope.() -> Unit) = {}) {
+    fun AppTopBar(
+        modifier: Modifier = Modifier,
+        title: @Composable () -> Unit,
+        navigationIcon: @Composable (() -> Unit) = {},
+        actions: @Composable (RowScope.() -> Unit) = {}
+    ) {
         TopAppBar(
             title = title,
             navigationIcon = navigationIcon,
-            modifier = modifier ,
+            modifier = modifier,
             actions = actions,
             colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
@@ -200,11 +255,14 @@ object LayoutHelpers{
     }
 
     @Composable
-    fun AppCard(modifier: Modifier = Modifier,colors: CardColors = CardDefaults.cardColors(
-        containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
-        contentColor = MaterialTheme.colorScheme.onSurfaceVariant),
+    fun AppCard(
+        modifier: Modifier = Modifier, colors: CardColors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+            contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+        ),
         shape: Shape = RoundedCornerShape(10.dp),
-        content: @Composable ColumnScope.() -> Unit ) {
+        content: @Composable ColumnScope.() -> Unit
+    ) {
         Card(
             colors = colors,
             shape = shape,
