@@ -53,6 +53,10 @@ dependencies {
     implementation(libs.reorderable)
     implementation(libs.androidx.navigation.compose.android)
     implementation(libs.androidx.ui.text.google.fonts)
+    
+    // Microsoft Authentication Library (MSAL) for OAuth
+    implementation("com.microsoft.identity.client:msal:8.0.2")
+    
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

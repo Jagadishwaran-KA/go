@@ -1,5 +1,6 @@
 package com.example.warehouse_go
 
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -7,24 +8,55 @@ import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.QrCode
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.warehouse_go.models.AuthState
+import com.example.warehouse_go.viewmodels.LoginViewModel
 
 @Composable
 fun Login(navController: NavHostController, modifier: Modifier = Modifier) {
-    Scaffold { innerPadding ->
+    val context = LocalContext.current
+    val activity = context as Activity
+    
+    val viewModel: LoginViewModel = remember {
+        LoginViewModel(context, activity)
+    }
+    
+    val authState by viewModel.authState.collectAsState()
+    val snackbarHostState = remember { SnackbarHostState() }
+    
+    // Handle auth state changes
+    LaunchedEffect(authState) {
+        when (authState) {
+            is AuthState.Success -> {
+                navController.navigate("home") {
+                    popUpTo("login") { inclusive = true }
+                }
+            }
+            is AuthState.Error -> {
+                snackbarHostState.showSnackbar(
+                    message = (authState as AuthState.Error).message,
+                    duration = SnackbarDuration.Short
+                )
+                viewModel.resetAuthState()
+            }
+            else -> {}
+        }
+    }
+    
+    Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) }
+    ) { innerPadding ->
         Column(
             modifier
                 .padding(innerPadding)
@@ -36,7 +68,7 @@ fun Login(navController: NavHostController, modifier: Modifier = Modifier) {
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.tertiary,
                 modifier = Modifier.padding(horizontal = 14.dp))
-            ConnectionSettingsSection(navController)
+            ConnectionSettingsSection(navController, viewModel, authState)
         }
     }
 }
@@ -55,7 +87,11 @@ fun HeaderTitle() {
 }
 
 @Composable
-fun ConnectionSettingsSection(navController: NavHostController) {
+fun ConnectionSettingsSection(navController: NavHostController, viewModel: LoginViewModel, authState: AuthState) {
+    var tenantId by remember { mutableStateOf(TextFieldValue("")) }
+    var clientId by remember { mutableStateOf(TextFieldValue("")) }
+    var companyUrl by remember { mutableStateOf(TextFieldValue("")) }
+    
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -64,8 +100,40 @@ fun ConnectionSettingsSection(navController: NavHostController) {
             .background(MaterialTheme.colorScheme.surfaceContainer)
     ) {
         SettingsHeader()
-        LoginFormFields()
-        ActionButtons(navController)
+        
+        LoginField(
+            label = "Tenant Id", 
+            suffixIcon = Icons.Default.ContentCopy,
+            value = tenantId,
+            onValueChange = { tenantId = it },
+            enabled = authState !is AuthState.Loading
+        )
+        LoginField(
+            label = "Client Id", 
+            suffixIcon = Icons.Default.ContentCopy,
+            value = clientId,
+            onValueChange = { clientId = it },
+            enabled = authState !is AuthState.Loading
+        )
+        LoginField(
+            label = "Company Url", 
+            suffixIcon = Icons.Default.ContentCopy,
+            value = companyUrl,
+            onValueChange = { companyUrl = it },
+            enabled = authState !is AuthState.Loading
+        )
+        
+        ActionButtons(
+            navController = navController,
+            isLoading = authState is AuthState.Loading,
+            onConnectClick = {
+                viewModel.login(
+                    tenantId = tenantId.text,
+                    clientId = clientId.text,
+                    companyUrl = companyUrl.text
+                )
+            }
+        )
     }
 }
 
@@ -87,25 +155,23 @@ fun SettingsHeader() {
 }
 
 @Composable
-fun LoginFormFields() {
-    LoginField(label = "Tenant Id", suffixIcon = Icons.Default.ContentCopy)
-    LoginField(label = "Client Id", suffixIcon = Icons.Default.ContentCopy)
-    LoginField(label = "Company Url", suffixIcon = Icons.Default.ContentCopy)
-}
-
-@Composable
-fun LoginField(label: String, suffixIcon: ImageVector) {
-    var text by remember { mutableStateOf(TextFieldValue("")) }
-
+fun LoginField(
+    label: String, 
+    suffixIcon: ImageVector,
+    value: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit,
+    enabled: Boolean = true
+) {
     OutlinedTextField(
-        value = text,
-        onValueChange = { newValue -> text = newValue },
+        value = value,
+        onValueChange = onValueChange,
         label = { Text(text = label, style = MaterialTheme.typography.labelLarge) },
         placeholder = { Text(text = "Enter $label", style = MaterialTheme.typography.labelMedium) },
         trailingIcon = {
             Icon(imageVector = suffixIcon, contentDescription = label)
         },
-        maxLines = 1,
+        singleLine = true,
+        enabled = enabled,
         modifier = Modifier
             .fillMaxWidth()
             .padding(6.dp)
@@ -126,10 +192,14 @@ fun SpacerWithBox(
 
 
 @Composable
-fun ActionButtons(navController: NavHostController) {
+fun ActionButtons(navController: NavHostController, isLoading: Boolean, onConnectClick: () -> Unit) {
     SpacerWithBox(modifier = Modifier) {
-        FilledButton(Modifier.width(350.dp),"Connect to Warehouse") {
-            navController.navigate("home")
+        FilledButton(
+            Modifier.width(350.dp),
+            label = if (isLoading) "Connecting..." else "Connect to Warehouse",
+            enabled = !isLoading
+        ) {
+            onConnectClick()
         }
     }
     SpacerWithBox(modifier = Modifier) {
@@ -139,7 +209,8 @@ fun ActionButtons(navController: NavHostController) {
         OutLineButton(
             Modifier.width(350.dp),
             label = "Scan QR Code to Login",
-            icon = Icons.Default.QrCode
+            icon = Icons.Default.QrCode,
+            enabled = !isLoading
         )
     }
     SpacerWithBox(modifier = Modifier) {
@@ -149,9 +220,10 @@ fun ActionButtons(navController: NavHostController) {
 
 
 @Composable
-fun FilledButton(modifier: Modifier = Modifier, label: String, click: () -> Unit) {
+fun FilledButton(modifier: Modifier = Modifier, label: String, enabled: Boolean = true, click: () -> Unit) {
     Button(
         onClick = {click()},
+        enabled = enabled,
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onPrimary
@@ -170,9 +242,10 @@ fun FilledButton(modifier: Modifier = Modifier, label: String, click: () -> Unit
 }
 
 @Composable
-fun OutLineButton(modifier: Modifier = Modifier,label: String,icon: ImageVector? = null) {
+fun OutLineButton(modifier: Modifier = Modifier, label: String, icon: ImageVector? = null, enabled: Boolean = true) {
     OutlinedButton(
         onClick = {},
+        enabled = enabled,
         shape = RoundedCornerShape(8.dp),
         modifier = modifier.padding(4.dp)
     ) {
