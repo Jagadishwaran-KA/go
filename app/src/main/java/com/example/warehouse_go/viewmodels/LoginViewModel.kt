@@ -40,6 +40,13 @@ class LoginViewModel(
 
                 if (user != null) {
                     Log.d(tag, "Login successful for user: ${user.displayName}")
+                    Log.d(tag, "Display Name: ${user.displayName}")
+                    Log.d(tag, "User Principal Name: ${user.userPrincipalName}")
+                    Log.d(tag, "User ID: ${user.id}")
+                    Log.d(tag, "Email: ${user.mail}")
+                    Log.d(tag, "Access Token: ${user.accessToken}")
+                    Log.d(tag, "Tenant ID: ${user.tenantId}")
+                    Log.d(tag, "Client ID: ${user.clientId}")
                     _authState.value = AuthState.Success(user)
                 } else {
                     Log.e(tag, "Login failed: Authentication returned null")

@@ -35,7 +35,6 @@ fun Login(navController: NavHostController, modifier: Modifier = Modifier) {
     val authState by viewModel.authState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
     
-    // Handle auth state changes
     LaunchedEffect(authState) {
         when (authState) {
             is AuthState.Success -> {

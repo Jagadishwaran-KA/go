@@ -49,29 +49,26 @@ class MicrosoftAuthService(
                     }
                 }
 
-                if((_tenantId != tenantId) || (_clientId != clientId)) {
-                    Log.d(tag, "Config changed, creating new MSAL application")
+                // Always create new MSAL application and config file
+                Log.d(tag, "Creating new MSAL application")
 
-                    singleAccountApp = null
-                    currentAccount = null
-                    _tenantId = tenantId
-                    _clientId = clientId
+                singleAccountApp = null
+                currentAccount = null
+                _tenantId = tenantId
+                _clientId = clientId
 
-                    configFile = createTempConfigFile(clientId, tenantId)
-                    Log.d(tag, "Created temp config file: ${configFile?.absolutePath}")
+                configFile = createTempConfigFile(clientId, tenantId)
+                Log.d(tag, "Created temp config file: ${configFile?.absolutePath}")
 
-                    PublicClientApplication.createSingleAccountPublicClientApplication(
-                        context,
-                        configFile!!,
-                        listener
-                    )
-                    
-                    if (!appCreated.await()) {
-                        Log.e(tag, "Failed to create MSAL application")
-                        return@withContext null
-                    }
-                } else {
-                    Log.d(tag, "Reusing existing MSAL application")
+                PublicClientApplication.createSingleAccountPublicClientApplication(
+                    context,
+                    configFile!!,
+                    listener
+                )
+                
+                if (!appCreated.await()) {
+                    Log.e(tag, "Failed to create MSAL application")
+                    return@withContext null
                 }
 
                 val authResult = CompletableDeferred<User?>()
