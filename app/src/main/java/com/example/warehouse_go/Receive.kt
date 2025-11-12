@@ -1,8 +1,8 @@
 package com.example.warehouse_go
 
 import com.example.warehouse_go.models.Receive
-import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -13,18 +13,11 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import kotlinx.coroutines.launch
-import kotlin.math.roundToInt
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -83,7 +76,7 @@ fun ReceiveScreen(navController: NavController, receiveCards: List<Receive>) {
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(receiveCards, key = { it.receiptNo }) { card ->
-
+                    Receipt(card)
                 }
             }
         }
@@ -92,8 +85,29 @@ fun ReceiveScreen(navController: NavController, receiveCards: List<Receive>) {
 
 @Composable
 fun Receipt(receiptInfo: Receive,modifier: Modifier = Modifier) {
-    Card {  }
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+            contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+        ),
+        shape = RoundedCornerShape(10.dp),
+        modifier = modifier.fillMaxWidth().padding(2.dp)
+    ) {
+        Column(modifier.padding(2.dp)){
+            BuildRow("Receipt No", receiptInfo.receiptNo)
+            BuildRow("Purch Order No",receiptInfo.orderNo)
+            BuildRow("Assigned Date",receiptInfo.assignedDate)
+            BuildRow("Assigned Time",receiptInfo.assignedTime)
+        }
+    }
 }
 
+@Composable
+fun BuildRow(label: String, value: String,modifier: Modifier = Modifier) {
+    Row(modifier.fillMaxWidth().padding(6.dp), horizontalArrangement = Arrangement.SpaceBetween){
+        Text(label, color = MaterialTheme.colorScheme.primary,style = MaterialTheme.typography.titleMedium)
+        Text(value, fontWeight = FontWeight.SemiBold,style = MaterialTheme.typography.titleMedium)
+    }
+}
 
 
