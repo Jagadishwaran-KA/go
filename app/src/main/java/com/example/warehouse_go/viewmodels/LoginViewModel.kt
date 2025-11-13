@@ -5,8 +5,9 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.warehouse_go.models.AuthCredentials
 import com.example.warehouse_go.models.AuthState
-import com.example.warehouse_go.services.MicrosoftAuthService
+import com.example.warehouse_go.services.MicrosoftOAuthService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,7 +19,7 @@ class LoginViewModel(
 ) : ViewModel() {
 
     private val tag = "LoginViewModel"
-    private val authService = MicrosoftAuthService(context, activity)
+//    private val authService = MicrosoftAuthService(context, activity)
 
     private val _authState = MutableStateFlow<AuthState>(AuthState.Idle)
     val authState: StateFlow<AuthState> = _authState.asStateFlow()
@@ -35,22 +36,28 @@ class LoginViewModel(
                 Log.d(tag, "Starting login with tenantId: $tenantId, clientId: $clientId")
                 _authState.value = AuthState.Loading
 
-                val user = authService.signInInteractive(tenantId, clientId)
+                    val user = MicrosoftOAuthService(context, activity,AuthCredentials.OAuthCredentials(tenantId,clientId,companyUrl))
+                    if (user.Login()){
+                        _authState.value = AuthState.Success(user.getUserInfo())
+                    }else{
+                        _authState.value = AuthState.Error("ERROR LOGGING IN")
+                    }
 
-                if (user != null) {
-                    Log.d(tag, "Login successful for user: ${user.displayName}")
-                    Log.d(tag, "Display Name: ${user.displayName}")
-                    Log.d(tag, "User Principal Name: ${user.userPrincipalName}")
-                    Log.d(tag, "User ID: ${user.id}")
-                    Log.d(tag, "Email: ${user.mail}")
-                    Log.d(tag, "Access Token: ${user.accessToken}")
-                    Log.d(tag, "Tenant ID: ${user.tenantId}")
-                    Log.d(tag, "Client ID: ${user.clientId}")
-                    _authState.value = AuthState.Success(user)
-                } else {
-                    Log.e(tag, "Login failed: Authentication returned null")
-                    _authState.value = AuthState.Error("Authentication failed. Please try again.")
-                }
+
+                //                if (user != null) {
+//                    Log.d(tag, "Login successful for user: ${user.displayName}")
+//                    Log.d(tag, "Display Name: ${user.displayName}")
+//                    Log.d(tag, "User Principal Name: ${user.userPrincipalName}")
+//                    Log.d(tag, "User ID: ${user.id}")
+//                    Log.d(tag, "Email: ${user.mail}")
+//                    Log.d(tag, "Access Token: ${user.accessToken}")
+//                    Log.d(tag, "Tenant ID: ${user.tenantId}")
+//                    Log.d(tag, "Client ID: ${user.clientId}")
+//                    _authState.value = AuthState.Success(user)
+//                } else {
+//                    Log.e(tag, "Login failed: Authentication returned null")
+//                    _authState.value = AuthState.Error("Authentication failed. Please try again.")
+//                }
             } catch (e: Exception) {
                 Log.e(tag, "Login exception: ${e.message}")
                 e.printStackTrace()
@@ -59,27 +66,6 @@ class LoginViewModel(
         }
     }
 
-    fun logout() {
-        viewModelScope.launch {
-            try {
-                _authState.value = AuthState.Loading
-                val success = authService.logout()
-                
-                if (success) {
-                    Log.d(tag, "Logout successful")
-                    _authState.value = AuthState.Idle
-                } else {
-                    Log.e(tag, "Logout failed")
-                    _authState.value = AuthState.Error("Logout failed")
-                }
-            } catch (e: Exception) {
-                Log.e(tag, "Logout exception: ${e.message}")
-                _authState.value = AuthState.Error("Logout error: ${e.message}")
-            }
-        }
+
     }
 
-    fun resetAuthState() {
-        _authState.value = AuthState.Idle
-    }
-}
