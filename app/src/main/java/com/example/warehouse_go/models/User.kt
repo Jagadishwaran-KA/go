@@ -1,11 +1,9 @@
 package com.example.warehouse_go.models
 
+import java.util.Date
+
 data class User(
-    val displayName: String,
-    val userPrincipalName: String,
-    val id: String,
-    val mail: String,
+    val userName: String,
     val accessToken: String,
-    val tenantId: String,
-    val clientId: String
+    val expiresOn: Date
 )

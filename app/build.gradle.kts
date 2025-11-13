@@ -56,6 +56,7 @@ dependencies {
     
     // Microsoft Authentication Library (MSAL) for OAuth
     implementation("com.microsoft.identity.client:msal:8.0.2")
+    implementation("com.google.code.gson:gson:2.13.2")
     
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
