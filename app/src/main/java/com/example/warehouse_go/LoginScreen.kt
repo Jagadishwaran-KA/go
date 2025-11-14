@@ -61,7 +61,6 @@ fun LoginScreen(navController: NavHostController, modifier: Modifier = Modifier)
                     message = (authState as AuthState.Error).message,
                     duration = SnackbarDuration.Short
                 )
-//                viewModel.resetAuthState()
             }
             else -> {}
         }
