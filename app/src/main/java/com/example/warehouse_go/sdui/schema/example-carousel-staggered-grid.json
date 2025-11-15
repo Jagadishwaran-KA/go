@@ -1,0 +1,446 @@
+{
+  "id": "featured_items_carousel",
+  "version": 1,
+  "type": "page",
+  "meta": {
+    "title": "Featured Items",
+    "pageType": "LIST",
+    "cachePolicy": "CACHE_FIRST",
+    "scrollable": true,
+    "refreshable": true
+  },
+  "layout": {
+    "type": "LIST",
+    "areas": {
+      "topBar": {
+        "id": "top_bar",
+        "version": 1,
+        "type": "topBar",
+        "meta": {
+          "title": {
+            "text": "Featured Items",
+            "textSize": "LARGE"
+          },
+          "showBackButton": false,
+          "actions": []
+        },
+        "properties": {}
+      },
+      "content": [
+        {
+          "id": "carousel_section",
+          "version": 1,
+          "type": "container",
+          "meta": {
+            "arrangement": "COLUMN",
+            "spacing": "MEDIUM",
+            "scrollable": false,
+            "children": [
+              {
+                "id": "carousel_title",
+                "version": 1,
+                "type": "text",
+                "meta": {
+                  "text": "New Arrivals",
+                  "textContent": {
+                    "text": "New Arrivals",
+                    "textSize": "LARGE",
+                    "fontWeight": "BOLD",
+                    "textAlign": "START"
+                  }
+                },
+                "properties": {
+                  "padding": "MEDIUM"
+                }
+              },
+              {
+                "id": "horizontal_carousel",
+                "version": 1,
+                "type": "container",
+                "meta": {
+                  "arrangement": "ROW",
+                  "spacing": "MEDIUM",
+                  "scrollable": true,
+                  "horizontalAlignment": "START",
+                  "verticalAlignment": "CENTER",
+                  "children": [
+                    {
+                      "id": "item_1_card",
+                      "version": 1,
+                      "type": "card",
+                      "meta": {
+                        "fields": [
+                          {
+                            "id": "item_1_image",
+                            "version": 1,
+                            "type": "text",
+                            "meta": {
+                              "text": "🎁",
+                              "textContent": {
+                                "text": "🎁",
+                                "textSize": "EXTRA_LARGE",
+                                "fontWeight": "NORMAL",
+                                "textAlign": "CENTER"
+                              }
+                            },
+                            "properties": {}
+                          },
+                          {
+                            "id": "item_1_name",
+                            "version": 1,
+                            "type": "text",
+                            "meta": {
+                              "text": "Product A",
+                              "textContent": {
+                                "text": "Product A",
+                                "textSize": "MEDIUM",
+                                "fontWeight": "BOLD",
+                                "textAlign": "CENTER"
+                              }
+                            },
+                            "properties": {}
+                          },
+                          {
+                            "id": "item_1_price",
+                            "version": 1,
+                            "type": "text",
+                            "meta": {
+                              "text": "$99.99",
+                              "textContent": {
+                                "text": "$99.99",
+                                "textSize": "SMALL",
+                                "fontWeight": "NORMAL",
+                                "textAlign": "CENTER"
+                              }
+                            },
+                            "properties": {}
+                          }
+                        ],
+                        "clickable": true,
+                        "action": {
+                          "handlerType": "NAVIGATION",
+                          "action": "DRILL_DOWN",
+                          "params": {
+                            "targetPage": "itemDetail",
+                            "recordKey": "ITEM001"
+                          }
+                        }
+                      },
+                      "properties": {
+                        "padding": "MEDIUM",
+                        "elevation": "LOW",
+                        "cornerRadius": "MEDIUM",
+                        "fillMaxWidth": false
+                      }
+                    },
+                    {
+                      "id": "item_2_card",
+                      "version": 1,
+                      "type": "card",
+                      "meta": {
+                        "fields": [
+                          {
+                            "id": "item_2_image",
+                            "version": 1,
+                            "type": "text",
+                            "meta": {
+                              "text": "📦",
+                              "textContent": {
+                                "text": "📦",
+                                "textSize": "EXTRA_LARGE",
+                                "fontWeight": "NORMAL",
+                                "textAlign": "CENTER"
+                              }
+                            },
+                            "properties": {}
+                          },
+                          {
+                            "id": "item_2_name",
+                            "version": 1,
+                            "type": "text",
+                            "meta": {
+                              "text": "Product B",
+                              "textContent": {
+                                "text": "Product B",
+                                "textSize": "MEDIUM",
+                                "fontWeight": "BOLD",
+                                "textAlign": "CENTER"
+                              }
+                            },
+                            "properties": {}
+                          },
+                          {
+                            "id": "item_2_price",
+                            "version": 1,
+                            "type": "text",
+                            "meta": {
+                              "text": "$149.99",
+                              "textContent": {
+                                "text": "$149.99",
+                                "textSize": "SMALL",
+                                "fontWeight": "NORMAL",
+                                "textAlign": "CENTER"
+                              }
+                            },
+                            "properties": {}
+                          }
+                        ],
+                        "clickable": true,
+                        "action": {
+                          "handlerType": "NAVIGATION",
+                          "action": "DRILL_DOWN",
+                          "params": {
+                            "targetPage": "itemDetail",
+                            "recordKey": "ITEM002"
+                          }
+                        }
+                      },
+                      "properties": {
+                        "padding": "MEDIUM",
+                        "elevation": "LOW",
+                        "cornerRadius": "MEDIUM",
+                        "fillMaxWidth": false
+                      }
+                    },
+                    {
+                      "id": "item_3_card",
+                      "version": 1,
+                      "type": "card",
+                      "meta": {
+                        "fields": [
+                          {
+                            "id": "item_3_image",
+                            "version": 1,
+                            "type": "text",
+                            "meta": {
+                              "text": "🛍️",
+                              "textContent": {
+                                "text": "🛍️",
+                                "textSize": "EXTRA_LARGE",
+                                "fontWeight": "NORMAL",
+                                "textAlign": "CENTER"
+                              }
+                            },
+                            "properties": {}
+                          },
+                          {
+                            "id": "item_3_name",
+                            "version": 1,
+                            "type": "text",
+                            "meta": {
+                              "text": "Product C",
+                              "textContent": {
+                                "text": "Product C",
+                                "textSize": "MEDIUM",
+                                "fontWeight": "BOLD",
+                                "textAlign": "CENTER"
+                              }
+                            },
+                            "properties": {}
+                          },
+                          {
+                            "id": "item_3_price",
+                            "version": 1,
+                            "type": "text",
+                            "meta": {
+                              "text": "$79.99",
+                              "textContent": {
+                                "text": "$79.99",
+                                "textSize": "SMALL",
+                                "fontWeight": "NORMAL",
+                                "textAlign": "CENTER"
+                              }
+                            },
+                            "properties": {}
+                          }
+                        ],
+                        "clickable": true,
+                        "action": {
+                          "handlerType": "NAVIGATION",
+                          "action": "DRILL_DOWN",
+                          "params": {
+                            "targetPage": "itemDetail",
+                            "recordKey": "ITEM003"
+                          }
+                        }
+                      },
+                      "properties": {
+                        "padding": "MEDIUM",
+                        "elevation": "LOW",
+                        "cornerRadius": "MEDIUM",
+                        "fillMaxWidth": false
+                      }
+                    }
+                  ]
+                },
+                "properties": {
+                  "fillMaxWidth": true
+                }
+              }
+            ]
+          },
+          "properties": {}
+        },
+        {
+          "id": "categories_section",
+          "version": 1,
+          "type": "container",
+          "meta": {
+            "arrangement": "COLUMN",
+            "spacing": "MEDIUM",
+            "scrollable": false,
+            "children": [
+              {
+                "id": "categories_title",
+                "version": 1,
+                "type": "text",
+                "meta": {
+                  "text": "Shop by Category",
+                  "textContent": {
+                    "text": "Shop by Category",
+                    "textSize": "LARGE",
+                    "fontWeight": "BOLD",
+                    "textAlign": "START"
+                  }
+                },
+                "properties": {
+                  "padding": "MEDIUM"
+                }
+              },
+              {
+                "id": "categories_grid",
+                "version": 1,
+                "type": "container",
+                "meta": {
+                  "arrangement": "STAGGERED_GRID",
+                  "columns": 2,
+                  "spacing": "MEDIUM",
+                  "scrollable": false,
+                  "children": [
+                    {
+                      "id": "category_electronics",
+                      "version": 1,
+                      "type": "card",
+                      "meta": {
+                        "fields": [
+                          {
+                            "id": "cat_electronics_icon",
+                            "version": 1,
+                            "type": "text",
+                            "meta": {
+                              "text": "⚡",
+                              "textContent": {
+                                "text": "⚡",
+                                "textSize": "EXTRA_LARGE",
+                                "fontWeight": "NORMAL",
+                                "textAlign": "CENTER"
+                              }
+                            },
+                            "properties": {}
+                          },
+                          {
+                            "id": "cat_electronics_name",
+                            "version": 1,
+                            "type": "text",
+                            "meta": {
+                              "text": "Electronics",
+                              "textContent": {
+                                "text": "Electronics",
+                                "textSize": "MEDIUM",
+                                "fontWeight": "BOLD",
+                                "textAlign": "CENTER"
+                              }
+                            },
+                            "properties": {}
+                          }
+                        ],
+                        "clickable": true,
+                        "action": {
+                          "handlerType": "NAVIGATION",
+                          "action": "NAVIGATE_TO",
+                          "params": {
+                            "targetPage": "category",
+                            "categoryId": "electronics"
+                          }
+                        }
+                      },
+                      "properties": {
+                        "padding": "LARGE",
+                        "elevation": "MEDIUM",
+                        "cornerRadius": "MEDIUM",
+                        "backgroundColor": "PRIMARY"
+                      }
+                    },
+                    {
+                      "id": "category_clothing",
+                      "version": 1,
+                      "type": "card",
+                      "meta": {
+                        "fields": [
+                          {
+                            "id": "cat_clothing_icon",
+                            "version": 1,
+                            "type": "text",
+                            "meta": {
+                              "text": "👔",
+                              "textContent": {
+                                "text": "👔",
+                                "textSize": "EXTRA_LARGE",
+                                "fontWeight": "NORMAL",
+                                "textAlign": "CENTER"
+                              }
+                            },
+                            "properties": {}
+                          },
+                          {
+                            "id": "cat_clothing_name",
+                            "version": 1,
+                            "type": "text",
+                            "meta": {
+                              "text": "Clothing",
+                              "textContent": {
+                                "text": "Clothing",
+                                "textSize": "MEDIUM",
+                                "fontWeight": "BOLD",
+                                "textAlign": "CENTER"
+                              }
+                            },
+                            "properties": {}
+                          }
+                        ],
+                        "clickable": true,
+                        "action": {
+                          "handlerType": "NAVIGATION",
+                          "action": "NAVIGATE_TO",
+                          "params": {
+                            "targetPage": "category",
+                            "categoryId": "clothing"
+                          }
+                        }
+                      },
+                      "properties": {
+                        "padding": "MEDIUM",
+                        "elevation": "MEDIUM",
+                        "cornerRadius": "MEDIUM",
+                        "backgroundColor": "SECONDARY"
+                      }
+                    }
+                  ]
+                },
+                "properties": {
+                  "padding": "MEDIUM"
+                }
+              }
+            ]
+          },
+          "properties": {}
+        }
+      ]
+    }
+  },
+  "dataBinding": {
+    "endpoint": "/api/v1/featured/items",
+    "method": "GET",
+    "keyField": "itemNo"
+  }
+}

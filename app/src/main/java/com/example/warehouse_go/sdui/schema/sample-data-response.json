@@ -1,0 +1,28 @@
+{
+  "data": [
+    {
+      "receiptNo": "WR-001",
+      "orderNo": "PO-2024-001",
+      "assignedDate": "2025-11-14",
+      "assignedTime": "10:30"
+    },
+    {
+      "receiptNo": "WR-002",
+      "orderNo": "PO-2024-002",
+      "assignedDate": "2025-11-14",
+      "assignedTime": "11:45"
+    },
+    {
+      "receiptNo": "WR-003",
+      "orderNo": "PO-2024-003",
+      "assignedDate": "2025-11-15",
+      "assignedTime": "09:15"
+    }
+  ],
+  "meta": {
+    "totalCount": 3,
+    "page": 1,
+    "pageSize": 10,
+    "hasMore": false
+  }
+}

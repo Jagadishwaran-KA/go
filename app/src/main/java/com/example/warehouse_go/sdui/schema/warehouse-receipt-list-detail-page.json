@@ -1,0 +1,229 @@
+{
+  "id": "warehouse_receipt_list_detail",
+  "version": 1,
+  "type": "page",
+  "meta": {
+    "title": "Warehouse Receipts",
+    "subtitle": "View and manage receipts",
+    "pageType": "LIST",
+    "cachePolicy": "NETWORK_FIRST",
+    "refreshable": true
+  },
+  "layout": {
+    "type": "LIST_DETAIL",
+    "areas": {
+      "topBar": {
+        "id": "top_bar",
+        "version": 1,
+        "type": "topBar",
+        "meta": {
+          "title": "Warehouse Receipts",
+          "showBackButton": false,
+          "actions": [
+            {
+              "id": "refresh_action",
+              "version": 1,
+              "type": "action",
+              "meta": {
+                "label": "Refresh",
+                "icon": "refresh",
+                "actionHandler": {
+                  "handlerType": "PROCESSING",
+                  "action": "REFRESH",
+                  "params": {}
+                }
+              }
+            }
+          ]
+        }
+      },
+      "masterPane": [
+        {
+          "id": "search_field",
+          "version": 1,
+          "type": "textField",
+          "meta": {
+            "placeholder": "Search receipts...",
+            "inputType": "SEARCH",
+            "icon": "search",
+            "action": {
+              "handlerType": "INPUT",
+              "action": "FILTER",
+              "params": {
+                "filterField": "receiptNo"
+              }
+            }
+          },
+          "properties": {
+            "spacing": "MEDIUM",
+            "padding": "MEDIUM",
+            "fillMaxWidth": true
+          }
+        },
+        {
+          "id": "receipt_list",
+          "version": 1,
+          "type": "repeater",
+          "meta": {
+            "layoutType": "COLUMN",
+            "itemTemplate": {
+              "id": "{receiptNo}",
+              "version": 1,
+              "type": "card",
+              "meta": {
+                "fields": [
+                  {
+                    "id": "receipt_no_field",
+                    "version": 1,
+                    "type": "field",
+                    "meta": {
+                      "label": "Receipt No",
+                      "valueKey": "receiptNo",
+                      "fieldType": "CODE"
+                    },
+                    "properties": {
+                      "spacing": "SMALL"
+                    }
+                  },
+                  {
+                    "id": "vendor_name_field",
+                    "version": 1,
+                    "type": "field",
+                    "meta": {
+                      "label": "Vendor",
+                      "valueKey": "vendorName",
+                      "fieldType": "TEXT"
+                    },
+                    "properties": {
+                      "spacing": "SMALL"
+                    }
+                  },
+                  {
+                    "id": "status_field",
+                    "version": 1,
+                    "type": "field",
+                    "meta": {
+                      "label": "Status",
+                      "valueKey": "status",
+                      "fieldType": "OPTION",
+                      "conditionalStyle": {
+                        "conditions": [
+                          {
+                            "whenExpression": "status == 'Open'",
+                            "style": {
+                              "backgroundColor": "WARNING",
+                              "textColor": "ON_WARNING"
+                            }
+                          },
+                          {
+                            "whenExpression": "status == 'Closed'",
+                            "style": {
+                              "backgroundColor": "SUCCESS",
+                              "textColor": "ON_SUCCESS"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    "properties": {
+                      "spacing": "SMALL"
+                    }
+                  }
+                ],
+                "clickable": true,
+                "selected": false,
+                "action": {
+                  "handlerType": "NAVIGATION",
+                  "action": "SELECT_ITEM",
+                  "params": {
+                    "targetPane": "detailPane",
+                    "recordKey": "{receiptNo}"
+                  }
+                }
+              },
+              "properties": {
+                "spacing": "SMALL",
+                "padding": "MEDIUM",
+                "elevation": "LOW",
+                "cornerRadius": "MEDIUM",
+                "fillMaxWidth": true
+              }
+            },
+            "emptyState": {
+              "id": "empty_state",
+              "version": 1,
+              "type": "emptyState",
+              "meta": {
+                "icon": "inbox",
+                "message": "No warehouse receipts found",
+                "actionButton": {
+                  "id": "create_receipt_button",
+                  "version": 1,
+                  "type": "action",
+                  "meta": {
+                    "label": "Create Receipt",
+                    "icon": "add",
+                    "actionHandler": {
+                      "handlerType": "NAVIGATION",
+                      "action": "CREATE_NEW",
+                      "params": {
+                        "targetPage": "receiptCreate"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "dataSource": {
+              "endpoint": "/api/v1/warehouse/receipts",
+              "method": "GET",
+              "keyField": "receiptNo"
+            }
+          },
+          "properties": {
+            "fillMaxWidth": true,
+            "fillMaxHeight": true
+          }
+        }
+      ],
+      "detailPane": [
+        {
+          "id": "detail_placeholder",
+          "version": 1,
+          "type": "emptyState",
+          "meta": {
+            "icon": "info",
+            "message": "Select a receipt to view details",
+            "hideActionButton": true
+          },
+          "properties": {
+            "fillMaxWidth": true,
+            "fillMaxHeight": true
+          }
+        }
+      ],
+      "floatingAction": {
+        "id": "filter_fab",
+        "version": 1,
+        "type": "fab",
+        "meta": {
+          "icon": "filter_list",
+          "label": "Filter",
+          "actionHandler": {
+            "handlerType": "DIALOG",
+            "action": "SHOW_FILTERS",
+            "params": {
+              "dialogType": "bottomSheet"
+            }
+          }
+        }
+      }
+    }
+  },
+  "dataBinding": {
+    "endpoint": "/api/v1/warehouse/receipts",
+    "method": "GET",
+    "keyField": "receiptNo",
+    "refreshInterval": 30000
+  }
+}

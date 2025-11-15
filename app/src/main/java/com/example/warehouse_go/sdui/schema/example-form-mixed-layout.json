@@ -1,0 +1,303 @@
+{
+  "id": "create_receipt_form",
+  "version": 1,
+  "type": "page",
+  "meta": {
+    "title": "Create Warehouse Receipt",
+    "pageType": "FORM",
+    "cachePolicy": "NO_CACHE",
+    "scrollable": true,
+    "refreshable": false
+  },
+  "layout": {
+    "type": "LIST",
+    "areas": {
+      "topBar": {
+        "id": "top_bar",
+        "version": 1,
+        "type": "topBar",
+        "meta": {
+          "title": {
+            "text": "New Receipt",
+            "textSize": "LARGE"
+          },
+          "showBackButton": true,
+          "actions": []
+        },
+        "properties": {}
+      },
+      "content": [
+        {
+          "id": "form_container",
+          "version": 1,
+          "type": "container",
+          "meta": {
+            "arrangement": "COLUMN",
+            "spacing": "LARGE",
+            "scrollable": false,
+            "children": [
+              {
+                "id": "vendor_section",
+                "version": 1,
+                "type": "card",
+                "meta": {
+                  "fields": [
+                    {
+                      "id": "section_title",
+                      "version": 1,
+                      "type": "text",
+                      "meta": {
+                        "text": "Vendor Information",
+                        "textContent": {
+                          "text": "Vendor Information",
+                          "textSize": "MEDIUM",
+                          "fontWeight": "BOLD",
+                          "textAlign": "START"
+                        }
+                      },
+                      "properties": {
+                        "padding": "SMALL"
+                      }
+                    },
+                    {
+                      "id": "vendor_name_row",
+                      "version": 1,
+                      "type": "container",
+                      "meta": {
+                        "arrangement": "ROW",
+                        "spacing": "MEDIUM",
+                        "scrollable": false,
+                        "children": [
+                          {
+                            "id": "vendor_no_field",
+                            "version": 1,
+                            "type": "textField",
+                            "meta": {
+                              "placeholder": "Vendor No",
+                              "label": "Vendor No",
+                              "inputType": "TEXT"
+                            },
+                            "properties": {
+                              "fillMaxWidth": false
+                            }
+                          },
+                          {
+                            "id": "vendor_name_field",
+                            "version": 1,
+                            "type": "textField",
+                            "meta": {
+                              "placeholder": "Vendor Name",
+                              "label": "Vendor Name",
+                              "inputType": "TEXT"
+                            },
+                            "properties": {
+                              "fillMaxWidth": true
+                            }
+                          }
+                        ]
+                      },
+                      "properties": {}
+                    },
+                    {
+                      "id": "contact_email_field",
+                      "version": 1,
+                      "type": "textField",
+                      "meta": {
+                        "placeholder": "contact@vendor.com",
+                        "label": "Email",
+                        "inputType": "EMAIL"
+                      },
+                      "properties": {
+                        "fillMaxWidth": true
+                      }
+                    },
+                    {
+                      "id": "contact_phone_field",
+                      "version": 1,
+                      "type": "textField",
+                      "meta": {
+                        "placeholder": "+1 (555) 123-4567",
+                        "label": "Phone",
+                        "inputType": "PHONE"
+                      },
+                      "properties": {
+                        "fillMaxWidth": true
+                      }
+                    }
+                  ],
+                  "clickable": false
+                },
+                "properties": {
+                  "padding": "MEDIUM",
+                  "elevation": "LOW",
+                  "cornerRadius": "MEDIUM"
+                }
+              },
+              {
+                "id": "receipt_details_section",
+                "version": 1,
+                "type": "card",
+                "meta": {
+                  "fields": [
+                    {
+                      "id": "details_title",
+                      "version": 1,
+                      "type": "text",
+                      "meta": {
+                        "text": "Receipt Details",
+                        "textContent": {
+                          "text": "Receipt Details",
+                          "textSize": "MEDIUM",
+                          "fontWeight": "BOLD",
+                          "textAlign": "START"
+                        }
+                      },
+                      "properties": {
+                        "padding": "SMALL"
+                      }
+                    },
+                    {
+                      "id": "date_location_row",
+                      "version": 1,
+                      "type": "container",
+                      "meta": {
+                        "arrangement": "ROW",
+                        "spacing": "MEDIUM",
+                        "scrollable": false,
+                        "children": [
+                          {
+                            "id": "receipt_date_field",
+                            "version": 1,
+                            "type": "textField",
+                            "meta": {
+                              "placeholder": "Receipt Date",
+                              "label": "Date",
+                              "inputType": "TEXT"
+                            },
+                            "properties": {}
+                          },
+                          {
+                            "id": "location_field",
+                            "version": 1,
+                            "type": "textField",
+                            "meta": {
+                              "placeholder": "Location Code",
+                              "label": "Location",
+                              "inputType": "TEXT"
+                            },
+                            "properties": {}
+                          }
+                        ]
+                      },
+                      "properties": {}
+                    },
+                    {
+                      "id": "notes_field",
+                      "version": 1,
+                      "type": "textField",
+                      "meta": {
+                        "placeholder": "Enter notes...",
+                        "label": "Notes",
+                        "inputType": "TEXT"
+                      },
+                      "properties": {
+                        "fillMaxWidth": true
+                      }
+                    }
+                  ],
+                  "clickable": false
+                },
+                "properties": {
+                  "padding": "MEDIUM",
+                  "elevation": "LOW",
+                  "cornerRadius": "MEDIUM"
+                }
+              },
+              {
+                "id": "action_buttons",
+                "version": 1,
+                "type": "container",
+                "meta": {
+                  "arrangement": "GRID",
+                  "columns": 3,
+                  "spacing": "MEDIUM",
+                  "scrollable": false,
+                  "children": [
+                    {
+                      "id": "save_action",
+                      "version": 1,
+                      "type": "action",
+                      "meta": {
+                        "label": "Save",
+                        "icon": "done",
+                        "actionType": "PRIMARY",
+                        "handler": {
+                          "handlerType": "PROCESSING",
+                          "action": "POST",
+                          "params": {
+                            "endpoint": "/api/v1/warehouse/receipts",
+                            "method": "POST"
+                          }
+                        }
+                      },
+                      "properties": {
+                        "fillMaxWidth": true,
+                        "backgroundColor": "PRIMARY"
+                      }
+                    },
+                    {
+                      "id": "cancel_action",
+                      "version": 1,
+                      "type": "action",
+                      "meta": {
+                        "label": "Cancel",
+                        "icon": "close",
+                        "actionType": "SECONDARY",
+                        "handler": {
+                          "handlerType": "NAVIGATION",
+                          "action": "NAVIGATE_BACK",
+                          "params": {}
+                        }
+                      },
+                      "properties": {
+                        "fillMaxWidth": true
+                      }
+                    },
+                    {
+                      "id": "reset_action",
+                      "version": 1,
+                      "type": "action",
+                      "meta": {
+                        "label": "Reset",
+                        "actionType": "TEXT",
+                        "handler": {
+                          "handlerType": "PROCESSING",
+                          "action": "REFRESH",
+                          "params": {}
+                        }
+                      },
+                      "properties": {
+                        "fillMaxWidth": true
+                      }
+                    }
+                  ]
+                },
+                "properties": {
+                  "padding": "MEDIUM"
+                }
+              }
+            ]
+          },
+          "properties": {
+            "padding": "MEDIUM"
+          }
+        }
+      ]
+    }
+  },
+  "dataBinding": {
+    "endpoint": "/api/v1/warehouse/receipts",
+    "method": "POST",
+    "keyField": "receiptNo"
+  }
+}

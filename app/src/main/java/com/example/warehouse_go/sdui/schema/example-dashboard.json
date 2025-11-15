@@ -1,0 +1,337 @@
+{
+  "id": "warehouse_dashboard",
+  "version": 1,
+  "type": "page",
+  "meta": {
+    "title": "Warehouse Dashboard",
+    "pageType": "DASHBOARD",
+    "cachePolicy": "CACHE_FIRST",
+    "scrollable": true,
+    "refreshable": true
+  },
+  "layout": {
+    "type": "LIST",
+    "areas": {
+      "topBar": {
+        "id": "top_bar",
+        "version": 1,
+        "type": "topBar",
+        "meta": {
+          "title": {
+            "text": "Warehouse Dashboard",
+            "textSize": "LARGE"
+          },
+          "showBackButton": false,
+          "actions": []
+        },
+        "properties": {}
+      },
+      "content": [
+        {
+          "id": "metrics_grid",
+          "version": 1,
+          "type": "container",
+          "meta": {
+            "arrangement": "GRID",
+            "columns": 2,
+            "spacing": "MEDIUM",
+            "scrollable": false,
+            "children": [
+              {
+                "id": "sales_card",
+                "version": 1,
+                "type": "card",
+                "meta": {
+                  "fields": [
+                    {
+                      "id": "sales_label",
+                      "version": 1,
+                      "type": "text",
+                      "meta": {
+                        "text": "Total Sales",
+                        "textContent": {
+                          "text": "Total Sales",
+                          "textSize": "SMALL",
+                          "fontWeight": "NORMAL",
+                          "textAlign": "START"
+                        }
+                      },
+                      "properties": {}
+                    },
+                    {
+                      "id": "sales_value",
+                      "version": 1,
+                      "type": "text",
+                      "meta": {
+                        "text": "$1.2M",
+                        "textContent": {
+                          "text": "$1.2M",
+                          "textSize": "EXTRA_LARGE",
+                          "fontWeight": "BOLD",
+                          "textAlign": "START"
+                        }
+                      },
+                      "properties": {}
+                    }
+                  ],
+                  "clickable": false
+                },
+                "properties": {
+                  "padding": "MEDIUM",
+                  "elevation": "LOW",
+                  "cornerRadius": "MEDIUM",
+                  "backgroundColor": "PRIMARY"
+                }
+              },
+              {
+                "id": "orders_card",
+                "version": 1,
+                "type": "card",
+                "meta": {
+                  "fields": [
+                    {
+                      "id": "orders_label",
+                      "version": 1,
+                      "type": "text",
+                      "meta": {
+                        "text": "Active Orders",
+                        "textContent": {
+                          "text": "Active Orders",
+                          "textSize": "SMALL",
+                          "fontWeight": "NORMAL",
+                          "textAlign": "START"
+                        }
+                      },
+                      "properties": {}
+                    },
+                    {
+                      "id": "orders_value",
+                      "version": 1,
+                      "type": "text",
+                      "meta": {
+                        "text": "245",
+                        "textContent": {
+                          "text": "245",
+                          "textSize": "EXTRA_LARGE",
+                          "fontWeight": "BOLD",
+                          "textAlign": "START"
+                        }
+                      },
+                      "properties": {}
+                    }
+                  ],
+                  "clickable": false
+                },
+                "properties": {
+                  "padding": "MEDIUM",
+                  "elevation": "LOW",
+                  "cornerRadius": "MEDIUM",
+                  "backgroundColor": "SECONDARY"
+                }
+              },
+              {
+                "id": "inventory_card",
+                "version": 1,
+                "type": "card",
+                "meta": {
+                  "fields": [
+                    {
+                      "id": "inventory_label",
+                      "version": 1,
+                      "type": "text",
+                      "meta": {
+                        "text": "Inventory Items",
+                        "textContent": {
+                          "text": "Inventory Items",
+                          "textSize": "SMALL",
+                          "fontWeight": "NORMAL",
+                          "textAlign": "START"
+                        }
+                      },
+                      "properties": {}
+                    },
+                    {
+                      "id": "inventory_value",
+                      "version": 1,
+                      "type": "text",
+                      "meta": {
+                        "text": "1,234",
+                        "textContent": {
+                          "text": "1,234",
+                          "textSize": "EXTRA_LARGE",
+                          "fontWeight": "BOLD",
+                          "textAlign": "START"
+                        }
+                      },
+                      "properties": {}
+                    }
+                  ],
+                  "clickable": false
+                },
+                "properties": {
+                  "padding": "MEDIUM",
+                  "elevation": "LOW",
+                  "cornerRadius": "MEDIUM",
+                  "backgroundColor": "SURFACE"
+                }
+              },
+              {
+                "id": "shipping_card",
+                "version": 1,
+                "type": "card",
+                "meta": {
+                  "fields": [
+                    {
+                      "id": "shipping_label",
+                      "version": 1,
+                      "type": "text",
+                      "meta": {
+                        "text": "Pending Shipments",
+                        "textContent": {
+                          "text": "Pending Shipments",
+                          "textSize": "SMALL",
+                          "fontWeight": "NORMAL",
+                          "textAlign": "START"
+                        }
+                      },
+                      "properties": {}
+                    },
+                    {
+                      "id": "shipping_value",
+                      "version": 1,
+                      "type": "text",
+                      "meta": {
+                        "text": "89",
+                        "textContent": {
+                          "text": "89",
+                          "textSize": "EXTRA_LARGE",
+                          "fontWeight": "BOLD",
+                          "textAlign": "START"
+                        }
+                      },
+                      "properties": {}
+                    }
+                  ],
+                  "clickable": false
+                },
+                "properties": {
+                  "padding": "MEDIUM",
+                  "elevation": "LOW",
+                  "cornerRadius": "MEDIUM",
+                  "backgroundColor": "WARNING"
+                }
+              }
+            ]
+          },
+          "properties": {
+            "padding": "MEDIUM"
+          }
+        },
+        {
+          "id": "quick_actions_section",
+          "version": 1,
+          "type": "container",
+          "meta": {
+            "arrangement": "COLUMN",
+            "spacing": "SMALL",
+            "scrollable": false,
+            "children": [
+              {
+                "id": "quick_actions_title",
+                "version": 1,
+                "type": "text",
+                "meta": {
+                  "text": "Quick Actions",
+                  "textContent": {
+                    "text": "Quick Actions",
+                    "textSize": "LARGE",
+                    "fontWeight": "BOLD",
+                    "textAlign": "START"
+                  }
+                },
+                "properties": {
+                  "padding": "MEDIUM"
+                }
+              },
+              {
+                "id": "actions_row",
+                "version": 1,
+                "type": "container",
+                "meta": {
+                  "arrangement": "ROW",
+                  "spacing": "MEDIUM",
+                  "scrollable": true,
+                  "children": [
+                    {
+                      "id": "create_receipt_action",
+                      "version": 1,
+                      "type": "action",
+                      "meta": {
+                        "label": "New Receipt",
+                        "icon": "add",
+                        "actionType": "PRIMARY",
+                        "handler": {
+                          "handlerType": "NAVIGATION",
+                          "action": "CREATE_NEW",
+                          "params": {
+                            "targetPage": "receiptCreate"
+                          }
+                        }
+                      },
+                      "properties": {}
+                    },
+                    {
+                      "id": "create_shipment_action",
+                      "version": 1,
+                      "type": "action",
+                      "meta": {
+                        "label": "New Shipment",
+                        "icon": "add",
+                        "actionType": "SECONDARY",
+                        "handler": {
+                          "handlerType": "NAVIGATION",
+                          "action": "CREATE_NEW",
+                          "params": {
+                            "targetPage": "shipmentCreate"
+                          }
+                        }
+                      },
+                      "properties": {}
+                    },
+                    {
+                      "id": "view_reports_action",
+                      "version": 1,
+                      "type": "action",
+                      "meta": {
+                        "label": "Reports",
+                        "icon": "info",
+                        "actionType": "TEXT",
+                        "handler": {
+                          "handlerType": "NAVIGATION",
+                          "action": "NAVIGATE_TO",
+                          "params": {
+                            "targetPage": "reports"
+                          }
+                        }
+                      },
+                      "properties": {}
+                    }
+                  ]
+                },
+                "properties": {
+                  "padding": "MEDIUM"
+                }
+              }
+            ]
+          },
+          "properties": {}
+        }
+      ]
+    }
+  },
+  "dataBinding": {
+    "endpoint": "/api/v1/dashboard/metrics",
+    "method": "GET",
+    "refreshInterval": 60000
+  }
+}

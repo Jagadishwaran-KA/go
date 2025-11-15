@@ -1,0 +1,319 @@
+{
+  "id": "warehouse_receipt_detail_{receiptNo}",
+  "version": 1,
+  "type": "detailFragment",
+  "meta": {
+    "title": "Receipt Details",
+    "parentPage": "warehouse_receipt_list_detail",
+    "targetPane": "detailPane"
+  },
+  "content": [
+    {
+      "id": "detail_header",
+      "version": 1,
+      "type": "card",
+      "meta": {
+        "fields": [
+          {
+            "id": "receipt_no_header",
+            "version": 1,
+            "type": "text",
+            "meta": {
+              "text": "{receiptNo}",
+              "textStyle": "HEADLINE_MEDIUM"
+            },
+            "properties": {
+              "spacing": "SMALL"
+            }
+          },
+          {
+            "id": "status_badge",
+            "version": 1,
+            "type": "field",
+            "meta": {
+              "label": "Status",
+              "valueKey": "status",
+              "fieldType": "OPTION",
+              "conditionalStyle": {
+                "conditions": [
+                  {
+                    "whenExpression": "status == 'Open'",
+                    "style": {
+                      "backgroundColor": "WARNING",
+                      "textColor": "ON_WARNING"
+                    }
+                  },
+                  {
+                    "whenExpression": "status == 'Closed'",
+                    "style": {
+                      "backgroundColor": "SUCCESS",
+                      "textColor": "ON_SUCCESS"
+                    }
+                  }
+                ]
+              }
+            },
+            "properties": {
+              "spacing": "SMALL"
+            }
+          }
+        ]
+      },
+      "properties": {
+        "padding": "LARGE",
+        "elevation": "NONE",
+        "fillMaxWidth": true
+      }
+    },
+    {
+      "id": "vendor_section",
+      "version": 1,
+      "type": "card",
+      "meta": {
+        "title": "Vendor Information",
+        "fields": [
+          {
+            "id": "vendor_no_field",
+            "version": 1,
+            "type": "field",
+            "meta": {
+              "label": "Vendor No",
+              "valueKey": "vendorNo",
+              "fieldType": "CODE"
+            },
+            "properties": {
+              "spacing": "SMALL"
+            }
+          },
+          {
+            "id": "vendor_name_field",
+            "version": 1,
+            "type": "field",
+            "meta": {
+              "label": "Vendor Name",
+              "valueKey": "vendorName",
+              "fieldType": "TEXT"
+            },
+            "properties": {
+              "spacing": "SMALL"
+            }
+          },
+          {
+            "id": "posting_date_field",
+            "version": 1,
+            "type": "field",
+            "meta": {
+              "label": "Posting Date",
+              "valueKey": "postingDate",
+              "fieldType": "DATE"
+            },
+            "properties": {
+              "spacing": "SMALL"
+            }
+          }
+        ]
+      },
+      "properties": {
+        "padding": "MEDIUM",
+        "elevation": "LOW",
+        "cornerRadius": "MEDIUM",
+        "spacing": "MEDIUM",
+        "fillMaxWidth": true
+      }
+    },
+    {
+      "id": "lines_section",
+      "version": 1,
+      "type": "card",
+      "meta": {
+        "title": "Receipt Lines",
+        "fields": [
+          {
+            "id": "lines_repeater",
+            "version": 1,
+            "type": "repeater",
+            "meta": {
+              "layoutType": "COLUMN",
+              "itemTemplate": {
+                "id": "{lineNo}",
+                "version": 1,
+                "type": "card",
+                "meta": {
+                  "fields": [
+                    {
+                      "id": "item_no_field",
+                      "version": 1,
+                      "type": "field",
+                      "meta": {
+                        "label": "Item No",
+                        "valueKey": "itemNo",
+                        "fieldType": "CODE"
+                      },
+                      "properties": {
+                        "spacing": "SMALL"
+                      }
+                    },
+                    {
+                      "id": "description_field",
+                      "version": 1,
+                      "type": "field",
+                      "meta": {
+                        "label": "Description",
+                        "valueKey": "description",
+                        "fieldType": "TEXT"
+                      },
+                      "properties": {
+                        "spacing": "SMALL"
+                      }
+                    },
+                    {
+                      "id": "quantity_field",
+                      "version": 1,
+                      "type": "field",
+                      "meta": {
+                        "label": "Quantity",
+                        "valueKey": "quantity",
+                        "fieldType": "DECIMAL"
+                      },
+                      "properties": {
+                        "spacing": "SMALL"
+                      }
+                    },
+                    {
+                      "id": "unit_cost_field",
+                      "version": 1,
+                      "type": "field",
+                      "meta": {
+                        "label": "Unit Cost",
+                        "valueKey": "unitCost",
+                        "fieldType": "DECIMAL"
+                      },
+                      "properties": {
+                        "spacing": "SMALL"
+                      }
+                    }
+                  ]
+                },
+                "properties": {
+                  "padding": "SMALL",
+                  "elevation": "NONE",
+                  "cornerRadius": "SMALL",
+                  "spacing": "SMALL",
+                  "fillMaxWidth": true,
+                  "backgroundColor": "SURFACE_VARIANT"
+                }
+              },
+              "dataSource": {
+                "endpoint": "/api/v1/warehouse/receipts/{receiptNo}/lines",
+                "method": "GET",
+                "keyField": "lineNo"
+              }
+            },
+            "properties": {
+              "fillMaxWidth": true
+            }
+          }
+        ]
+      },
+      "properties": {
+        "padding": "MEDIUM",
+        "elevation": "LOW",
+        "cornerRadius": "MEDIUM",
+        "spacing": "MEDIUM",
+        "fillMaxWidth": true
+      }
+    },
+    {
+      "id": "actions_section",
+      "version": 1,
+      "type": "card",
+      "meta": {
+        "fields": [
+          {
+            "id": "post_button",
+            "version": 1,
+            "type": "action",
+            "meta": {
+              "label": "Post Receipt",
+              "icon": "done",
+              "actionHandler": {
+                "handlerType": "PROCESSING",
+                "action": "POST",
+                "params": {
+                  "endpoint": "/api/v1/warehouse/receipts/{receiptNo}/post",
+                  "method": "POST",
+                  "confirmationMessage": "Are you sure you want to post this receipt?"
+                }
+              },
+              "conditionalVisibility": {
+                "whenExpression": "status == 'Open'"
+              }
+            },
+            "properties": {
+              "fillMaxWidth": true,
+              "backgroundColor": "PRIMARY",
+              "textColor": "ON_PRIMARY"
+            }
+          },
+          {
+            "id": "edit_button",
+            "version": 1,
+            "type": "action",
+            "meta": {
+              "label": "Edit Receipt",
+              "icon": "edit",
+              "actionHandler": {
+                "handlerType": "NAVIGATION",
+                "action": "EDIT",
+                "params": {
+                  "targetPage": "receiptEdit",
+                  "recordKey": "{receiptNo}"
+                }
+              }
+            },
+            "properties": {
+              "fillMaxWidth": true,
+              "spacing": "SMALL"
+            }
+          },
+          {
+            "id": "delete_button",
+            "version": 1,
+            "type": "action",
+            "meta": {
+              "label": "Delete Receipt",
+              "icon": "delete",
+              "actionHandler": {
+                "handlerType": "PROCESSING",
+                "action": "DELETE",
+                "params": {
+                  "endpoint": "/api/v1/warehouse/receipts/{receiptNo}",
+                  "method": "DELETE",
+                  "confirmationMessage": "Are you sure you want to delete this receipt?"
+                }
+              }
+            },
+            "properties": {
+              "fillMaxWidth": true,
+              "backgroundColor": "ERROR",
+              "textColor": "ON_ERROR",
+              "spacing": "SMALL"
+            }
+          }
+        ]
+      },
+      "properties": {
+        "padding": "MEDIUM",
+        "elevation": "LOW",
+        "cornerRadius": "MEDIUM",
+        "spacing": "MEDIUM",
+        "fillMaxWidth": true
+      }
+    }
+  ],
+  "dataBinding": {
+    "endpoint": "/api/v1/warehouse/receipts/{receiptNo}",
+    "method": "GET",
+    "keyField": "receiptNo"
+  }
+}

@@ -1,0 +1,340 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SDUI Page Definition Schema",
+  "description": "Generic schema for server-driven UI pages",
+  "type": "object",
+  "required": ["id", "version", "meta", "layout", "dataBinding"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the page"
+    },
+    "version": {
+      "type": "integer",
+      "description": "Version number for backward compatibility",
+      "minimum": 1
+    },
+    "meta": {
+      "type": "object",
+      "required": ["title", "pageType"],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "pageType": {
+          "type": "string",
+          "enum": ["LIST", "DETAIL", "FORM", "DASHBOARD"]
+        },
+        "generatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "cachePolicy": {
+          "type": "string",
+          "enum": ["NO_CACHE", "CACHE_FIRST", "NETWORK_FIRST"],
+          "default": "NO_CACHE"
+        }
+      }
+    },
+    "layout": {
+      "type": "object",
+      "required": ["type", "areas"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["LIST_DETAIL", "ROW", "COLUMN", "GRID", "LIST"]
+        },
+        "areas": {
+          "type": "object",
+          "required": ["content"],
+          "properties": {
+            "topBar": { "$ref": "#/definitions/topBarComponent" },
+            "content": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/contentComponent" }
+            },
+            "bottomBar": { "$ref": "#/definitions/bottomBarComponent" },
+            "floatingAction": { "$ref": "#/definitions/floatingActionComponent" }
+          }
+        }
+      }
+    },
+    "dataBinding": {
+      "type": "object",
+      "required": ["endpoint"],
+      "properties": {
+        "endpoint": { "type": "string" },
+        "method": { "type": "string", "default": "GET" },
+        "keyField": { "type": "string" },
+        "refreshInterval": { "type": "integer" }
+      }
+    }
+  },
+  "definitions": {
+    "componentProperties": {
+      "type": "object",
+      "properties": {
+        "spacing": {
+          "type": "string",
+          "enum": ["NONE", "EXTRA_SMALL", "SMALL", "MEDIUM", "LARGE", "EXTRA_LARGE"]
+        },
+        "padding": {
+          "type": "string",
+          "enum": ["NONE", "EXTRA_SMALL", "SMALL", "MEDIUM", "LARGE", "EXTRA_LARGE"]
+        },
+        "elevation": {
+          "type": "string",
+          "enum": ["NONE", "LOW", "MEDIUM", "HIGH"]
+        },
+        "backgroundColor": {
+          "type": "string",
+          "enum": ["PRIMARY", "SECONDARY", "SURFACE", "SURFACE_VARIANT", "BACKGROUND", "ERROR", "SUCCESS", "WARNING", "INFO"]
+        },
+        "textColor": {
+          "type": "string",
+          "enum": ["ON_PRIMARY", "ON_SECONDARY", "ON_SURFACE", "ON_SURFACE_VARIANT", "ON_BACKGROUND", "ON_ERROR", "ON_SUCCESS", "ON_WARNING", "ON_INFO"]
+        },
+        "cornerRadius": {
+          "type": "string",
+          "enum": ["NONE", "SMALL", "MEDIUM", "LARGE", "FULL"]
+        },
+        "visible": { "type": "boolean", "default": true },
+        "enabled": { "type": "boolean", "default": true },
+        "fillMaxWidth": { "type": "boolean", "default": false },
+        "fillMaxHeight": { "type": "boolean", "default": false }
+      }
+    },
+    "topBarComponent": {
+      "type": "object",
+      "required": ["id", "version", "type", "meta", "properties"],
+      "properties": {
+        "id": { "type": "string" },
+        "version": { "type": "integer" },
+        "type": { "type": "string", "const": "topBar" },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "title": { "$ref": "#/definitions/textContent" },
+            "showBackButton": { "type": "boolean" },
+            "actions": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/actionComponent" }
+            }
+          }
+        },
+        "properties": { "$ref": "#/definitions/componentProperties" }
+      }
+    },
+    "textContent": {
+      "type": "object",
+      "properties": {
+        "text": { "type": "string" },
+        "textSize": {
+          "type": "string",
+          "enum": ["SMALL", "MEDIUM", "LARGE", "EXTRA_LARGE"]
+        },
+        "fontWeight": {
+          "type": "string",
+          "enum": ["LIGHT", "NORMAL", "MEDIUM", "BOLD"]
+        },
+        "textAlign": {
+          "type": "string",
+          "enum": ["START", "CENTER", "END"]
+        }
+      }
+    },
+    "contentComponent": {
+      "oneOf": [
+        { "$ref": "#/definitions/textFieldComponent" },
+        { "$ref": "#/definitions/repeaterComponent" },
+        { "$ref": "#/definitions/textComponent" }
+      ]
+    },
+    "textFieldComponent": {
+      "type": "object",
+      "required": ["id", "version", "type", "meta", "properties"],
+      "properties": {
+        "id": { "type": "string" },
+        "version": { "type": "integer" },
+        "type": { "type": "string", "const": "textField" },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "placeholder": { "type": "string" },
+            "label": { "type": "string" },
+            "inputType": {
+              "type": "string",
+              "enum": ["TEXT", "NUMBER", "EMAIL", "PHONE", "PASSWORD", "SEARCH"]
+            },
+            "icon": { "type": "string" },
+            "iconPosition": {
+              "type": "string",
+              "enum": ["LEADING", "TRAILING"]
+            },
+            "action": { "$ref": "#/definitions/actionHandler" }
+          }
+        },
+        "properties": { "$ref": "#/definitions/componentProperties" }
+      }
+    },
+    "repeaterComponent": {
+      "type": "object",
+      "required": ["id", "version", "type", "meta", "properties"],
+      "properties": {
+        "id": { "type": "string" },
+        "version": { "type": "integer" },
+        "type": { "type": "string", "const": "repeater" },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "layoutType": {
+              "type": "string",
+              "enum": ["COLUMN", "GRID", "ROW"]
+            },
+            "itemTemplate": { "$ref": "#/definitions/cardComponent" },
+            "dataSource": {
+              "type": "object",
+              "properties": {
+                "endpoint": { "type": "string" },
+                "keyField": { "type": "string" },
+                "displayFields": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "orderBy": { "type": "string" }
+              }
+            },
+            "emptyState": { "$ref": "#/definitions/emptyStateComponent" },
+            "enableSwipeActions": { "type": "boolean" }
+          }
+        },
+        "properties": { "$ref": "#/definitions/componentProperties" }
+      }
+    },
+    "cardComponent": {
+      "type": "object",
+      "required": ["id", "version", "type", "meta", "properties"],
+      "properties": {
+        "id": { "type": "string" },
+        "version": { "type": "integer" },
+        "type": { "type": "string", "const": "card" },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "fields": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/fieldComponent" }
+            },
+            "clickable": { "type": "boolean" },
+            "action": { "$ref": "#/definitions/actionHandler" }
+          }
+        },
+        "properties": { "$ref": "#/definitions/componentProperties" }
+      }
+    },
+    "fieldComponent": {
+      "type": "object",
+      "required": ["id", "version", "type", "meta", "properties"],
+      "properties": {
+        "id": { "type": "string" },
+        "version": { "type": "integer" },
+        "type": { "type": "string", "const": "field" },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "label": { "type": "string" },
+            "valueKey": { "type": "string" },
+            "fieldType": {
+              "type": "string",
+              "enum": ["TEXT", "NUMBER", "DATE", "TIME", "DATETIME", "BOOLEAN", "CODE", "OPTION"]
+            },
+            "displayType": {
+              "type": "string",
+              "enum": ["TEXT", "BADGE", "CHIP", "ICON", "PROGRESS"]
+            },
+            "format": { "type": "string" }
+          }
+        },
+        "properties": { "$ref": "#/definitions/componentProperties" }
+      }
+    },
+    "textComponent": {
+      "type": "object",
+      "required": ["id", "version", "type", "meta", "properties"],
+      "properties": {
+        "id": { "type": "string" },
+        "version": { "type": "integer" },
+        "type": { "type": "string", "const": "text" },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "text": { "type": "string" },
+            "textContent": { "$ref": "#/definitions/textContent" }
+          }
+        },
+        "properties": { "$ref": "#/definitions/componentProperties" }
+      }
+    },
+    "emptyStateComponent": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "version": { "type": "integer" },
+        "type": { "type": "string", "const": "emptyState" },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "icon": { "type": "string" },
+            "message": { "type": "string" },
+            "actionButton": { "$ref": "#/definitions/actionComponent" }
+          }
+        },
+        "properties": { "$ref": "#/definitions/componentProperties" }
+      }
+    },
+    "actionComponent": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "version": { "type": "integer" },
+        "type": { "type": "string", "const": "action" },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "label": { "type": "string" },
+            "icon": { "type": "string" },
+            "actionType": {
+              "type": "string",
+              "enum": ["PRIMARY", "SECONDARY", "TEXT", "ICON"]
+            },
+            "handler": { "$ref": "#/definitions/actionHandler" }
+          }
+        },
+        "properties": { "$ref": "#/definitions/componentProperties" }
+      }
+    },
+    "actionHandler": {
+      "type": "object",
+      "properties": {
+        "handlerType": {
+          "type": "string",
+          "enum": ["NAVIGATION", "PROCESSING", "DIALOG", "EXTERNAL", "INPUT"]
+        },
+        "action": {
+          "type": "string",
+          "enum": ["NAVIGATE_TO", "NAVIGATE_BACK", "DRILL_DOWN", "POST", "DELETE", "UPDATE", "REFRESH", "SHOW_DIALOG", "SHOW_LOOKUP", "FILTER", "SEARCH", "SORT"]
+        },
+        "params": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      }
+    },
+    "bottomBarComponent": {
+      "type": "object"
+    },
+    "floatingActionComponent": {
+      "type": "object"
+    }
+  }
+}
